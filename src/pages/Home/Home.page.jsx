@@ -1,38 +1,35 @@
-import React, { useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React from 'react';
 
-import { useAuth } from '../../providers/Auth';
-import './Home.styles.css';
+import FlexContainer from 'components/FlexContainer';
+import Header from 'components/Header';
+import mockYoutubeVideos from 'assets/youtube-videos-mock.json';
+import Title from 'components/Title';
+import Card from 'components/Card';
 
 function HomePage() {
-  const history = useHistory();
-  const sectionRef = useRef(null);
-  const { authenticated, logout } = useAuth();
-
-  function deAuthenticate(event) {
-    event.preventDefault();
-    logout();
-    history.push('/');
-  }
+  const videoResults = mockYoutubeVideos.items.filter(
+    (ytItem) => ytItem.id.kind === 'youtube#video'
+  );
 
   return (
-    <section className="homepage" ref={sectionRef}>
-      <h1>Hello stranger!</h1>
-      {authenticated ? (
-        <>
-          <h2>Good to have you back</h2>
-          <span>
-            <Link to="/" onClick={deAuthenticate}>
-              ← logout
-            </Link>
-            <span className="separator" />
-            <Link to="/secret">show me something cool →</Link>
-          </span>
-        </>
-      ) : (
-        <Link to="/login">let me in →</Link>
-      )}
-    </section>
+    <FlexContainer column>
+      <Header />
+      <FlexContainer margin={{ top: 'xlg' }} fluid>
+        <Title color="black" size="xlg">
+          Welcome to the Challenge
+        </Title>
+      </FlexContainer>
+      <FlexContainer margin={{ vertical: 'xlg' }} padding={{ horizontal: 'xlg' }} fluid>
+        {videoResults.map((ytVideo) => (
+          <Card
+            thumbnail={ytVideo.snippet.thumbnails.medium.url}
+            title={ytVideo.snippet.title}
+            description={ytVideo.snippet.description}
+            key={ytVideo.etag}
+          />
+        ))}
+      </FlexContainer>
+    </FlexContainer>
   );
 }
 
