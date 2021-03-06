@@ -1,0 +1,61 @@
+ PASS  src/components/utils/__test__/utils.test.js
+  utils
+    getSpacingCSS
+      ✓ should return empty string when the using obj is present (4ms)
+      ✓ should accept any spacing key
+      ✓ should return the correct spacing for vertical option (1ms)
+      ✓ should return the correct spacing for horizontal option
+      ✓ should return the correct spacing for vertical and horizontal option
+      ✓ should return the default spacing for invalid options (1ms)
+      ✓ should return the correct spacing for each side options
+
+------------------------------|----------|----------|----------|----------|-------------------|
+File                          |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+------------------------------|----------|----------|----------|----------|-------------------|
+All files                     |    22.86 |    63.16 |     5.26 |    22.86 |                   |
+ src                          |        0 |      100 |      100 |        0 |                   |
+  index.jsx                   |        0 |      100 |      100 |        0 |             14,16 |
+ src/assets                   |        0 |        0 |        0 |        0 |                   |
+  index.js                    |        0 |        0 |        0 |        0 |                   |
+ src/components/App           |        0 |      100 |        0 |        0 |                   |
+  App.component.jsx           |        0 |      100 |        0 |        0 |                 7 |
+ src/components/Button        |        0 |        0 |        0 |        0 |                   |
+  Button.component.jsx        |        0 |        0 |        0 |        0 |           8,18,24 |
+  index.js                    |        0 |        0 |        0 |        0 |                   |
+  styled.js                   |        0 |      100 |      100 |        0 |              4,15 |
+ src/components/Card          |        0 |      100 |        0 |        0 |                   |
+  Card.component.jsx          |        0 |      100 |        0 |        0 |             10,25 |
+  index.js                    |        0 |        0 |        0 |        0 |                   |
+  styled.js                   |        0 |      100 |        0 |        0 |           5,16,17 |
+ src/components/FlexContainer |        0 |        0 |        0 |        0 |                   |
+  index.js                    |        0 |        0 |        0 |        0 |       6,7,9,23,32 |
+ src/components/GlobalStyles  |        0 |      100 |      100 |        0 |                   |
+  index.js                    |        0 |      100 |      100 |        0 |                 3 |
+ src/components/Header        |        0 |      100 |        0 |        0 |                   |
+  Header.component.jsx        |        0 |      100 |        0 |        0 |                10 |
+  index.js                    |        0 |        0 |        0 |        0 |                   |
+  styled.js                   |        0 |      100 |      100 |        0 |              3,16 |
+ src/components/Input         |        0 |        0 |        0 |        0 |                   |
+  Input.component.jsx         |        0 |        0 |        0 |        0 |           8,16,20 |
+  index.js                    |        0 |        0 |        0 |        0 |                   |
+  styled.js                   |        0 |      100 |      100 |        0 |              4,16 |
+ src/components/Text          |        0 |      100 |        0 |        0 |                   |
+  Text.component.jsx          |        0 |      100 |        0 |        0 |           7,14,19 |
+  index.js                    |        0 |        0 |        0 |        0 |                   |
+  styled.js                   |        0 |      100 |        0 |        0 |       5,6,8,16,21 |
+ src/components/Title         |        0 |      100 |        0 |        0 |                   |
+  Title.component.jsx         |        0 |      100 |        0 |        0 |     7,15,17,24,29 |
+  index.js                    |        0 |        0 |        0 |        0 |                   |
+  styled.js                   |        0 |      100 |        0 |        0 |... 18,24,25,32,33 |
+ src/components/utils         |      100 |      100 |      100 |      100 |                   |
+  getSpacingCSS.js            |      100 |      100 |      100 |      100 |                   |
+  index.js                    |        0 |        0 |        0 |        0 |                   |
+  spacingProps.js             |      100 |      100 |      100 |      100 |                   |
+ src/pages/Home               |        0 |      100 |        0 |        0 |                   |
+  Home.page.jsx               |        0 |      100 |        0 |        0 |       10,11,14,24 |
+------------------------------|----------|----------|----------|----------|-------------------|
+Test Suites: 1 passed, 1 total
+Tests:       7 passed, 7 total
+Snapshots:   0 total
+Time:        2.687s
+Ran all test suites related to changed files.
