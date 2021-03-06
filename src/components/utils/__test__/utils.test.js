@@ -2,7 +2,7 @@ import utils from 'components/utils';
 
 describe('utils', () => {
   describe('getSpacingCSS', () => {
-    it('should return empty string when the using obj is present', () => {
+    it('should return empty string when the using obj is not present', () => {
       let result = utils.getSpacingCSS({ for: 'margin', using: null });
       expect(result).toEqual('');
 
