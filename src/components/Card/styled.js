@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import FlexContainer from 'components/FlexContainer';
 
-const Container = styled(FlexContainer)`
+export const Container = styled(FlexContainer)`
   flex-basis: 345px;
   height: 345px;
   border-radius: var(--border-radius-md);
@@ -13,7 +13,7 @@ const Container = styled(FlexContainer)`
   justify-content: flex-start;
 `;
 
-const Banner = styled.div(
+export const Banner = styled.div(
   (props) => css`
     width: 100%;
     height: 140px;
@@ -26,5 +26,3 @@ const Banner = styled.div(
     margin-bottom: var(--spacing-md);
   `
 );
-
-export { Container, Banner };

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   background: transparent;
   border: 0;
   padding: var(--spacing-sm);
@@ -12,10 +12,8 @@ const StyledButton = styled.button`
   justify-content: center;
 `;
 
-const StyledIcon = styled(FontAwesomeIcon)`
+export const StyledIcon = styled(FontAwesomeIcon)`
   color: #fff;
   font-size: var(--font-size-lg);
   margin-right: var(--spacing-md);
 `;
-
-export { StyledButton, StyledIcon };

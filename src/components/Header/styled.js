@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledHeader = styled.header`
+export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,10 +13,8 @@ const StyledHeader = styled.header`
   padding: 15px 20px;
 `;
 
-const Avatar = styled.img`
+export const Avatar = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 20px;
 `;
-
-export { StyledHeader, Avatar };

@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import utils from 'components/utils';
 
-const StyledText = styled.span((props) => {
+export const StyledText = styled.span((props) => {
   const { margin, padding } = props;
 
   return css`
@@ -22,5 +22,3 @@ StyledText.defaultProps = {
   margin: utils.spacing.defaultProps,
   padding: utils.spacing.defaultProps,
 };
-
-export { StyledText };

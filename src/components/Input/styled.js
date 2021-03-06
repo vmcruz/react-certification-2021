@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import FlexContainer from 'components/FlexContainer';
 
-const InputContainer = styled(FlexContainer)`
+export const InputContainer = styled(FlexContainer)`
   border-radius: var(--border-radius-sm);
   background-color: rgba(255, 255, 255, 0.15);
   height: 35px;
@@ -13,7 +13,7 @@ const InputContainer = styled(FlexContainer)`
   }
 `;
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
   border: 0;
   height: 100%;
   padding: 0 var(--spacing-sm);
@@ -25,5 +25,3 @@ const StyledInput = styled.input`
     color: rgba(255, 255, 255, 0.5);
   }
 `;
-
-export { InputContainer, StyledInput };
