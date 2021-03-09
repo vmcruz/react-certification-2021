@@ -5,7 +5,7 @@ export const InputContainer = styled(FlexContainer)`
   border-radius: var(--border-radius-sm);
   background-color: rgba(255, 255, 255, 0.15);
   height: 35px;
-  color: #fff;
+  color: ${(props) => (!props.disabled ? '#fff' : 'rgba(255, 255, 255, 0.25)')};
   padding: 0 var(--spacing-lg);
 
   &:hover {
@@ -21,7 +21,8 @@ export const StyledInput = styled.input`
   background: transparent;
   color: inherit;
 
-  &::placeholder {
+  &::placeholder,
+  &:disabled {
     color: rgba(255, 255, 255, 0.5);
   }
 `;

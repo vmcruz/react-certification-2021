@@ -2,12 +2,12 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    --font-family-default: 'Roboto', monospace;
+    --font-family-default: Roboto, Arial, sans-serif;
     --font-size-default: 16px;
     --font-size-sm: 12px;
-    --font-size-md: 16px;
-    --font-size-lg: 24px;
-    --font-size-xlg: 28px;
+    --font-size-md: 14px;
+    --font-size-lg: 18px;
+    --font-size-xlg: 24px;
     --spacing-default: 0;
     --spacing-sm: 8px;
     --spacing-md: 15px;
