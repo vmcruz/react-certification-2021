@@ -2,11 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import ytAPI from 'api/ytAPI';
 import { useCache } from './useCache';
 
-function useYoutubeSearch({ for: queryType } = {}) {
-  if (!['query', 'related'].includes(queryType)) {
-    throw new Error('Unsupported Youtube Search type');
-  }
-
+function useYoutubeSearch({ using: ytSearchFunction, cachePrefix } = {}) {
   // As the search response won't change so often we set a TTL of 1hr
   const { getItem, setItem } = useCache({ ttl: 3600 });
   const items = useRef([]);
@@ -17,7 +13,9 @@ function useYoutubeSearch({ for: queryType } = {}) {
   const youtubeSearch = useCallback(
     async ({ pageToken } = {}) => {
       try {
-        const cacheKey = `${queryType}@${searchTerm}${pageToken ? `#${pageToken}` : ''}`;
+        const cacheKey = `${cachePrefix}@${searchTerm}${
+          pageToken ? `#${pageToken}` : ''
+        }`;
         // Look for cached results first
         const cachedResults = getItem(cacheKey);
 
@@ -25,25 +23,10 @@ function useYoutubeSearch({ for: queryType } = {}) {
           items.current.push(...cachedResults.items);
           setPagination(cachedResults.pagination);
         } else {
-          let searchObj = {};
-
-          // eslint-disable-next-line default-case
-          switch (queryType) {
-            case 'query':
-              searchObj = {
-                pageToken,
-                query: searchTerm,
-              };
-              break;
-            case 'related':
-              searchObj = {
-                pageToken,
-                relatedToVideoId: searchTerm,
-              };
-              break;
-          }
-
-          const data = await ytAPI.search(searchObj);
+          const data = await ytSearchFunction({
+            pageToken,
+            searchTerm,
+          });
           const { items: dataItems, nextPageToken, prevPageToken } = data;
 
           items.current.push(...dataItems);
@@ -64,7 +47,7 @@ function useYoutubeSearch({ for: queryType } = {}) {
         setError(e);
       }
     },
-    [queryType, searchTerm, setItem, getItem]
+    [cachePrefix, ytSearchFunction, searchTerm, setItem, getItem]
   );
 
   const getQueryPage = useCallback((pageToken) => youtubeSearch({ pageToken }), [
@@ -93,4 +76,10 @@ function useYoutubeSearch({ for: queryType } = {}) {
   return { search: setSearchTerm, items: items.current, nextPage, prevPage, error };
 }
 
-export { useYoutubeSearch };
+const useYoutubeQuery = () =>
+  useYoutubeSearch({ cachePrefix: 'query', using: ytAPI.searchQuery });
+
+const useYoutubeRelated = () =>
+  useYoutubeSearch({ cachePrefix: 'related', using: ytAPI.searchRelated });
+
+export { useYoutubeQuery, useYoutubeRelated };

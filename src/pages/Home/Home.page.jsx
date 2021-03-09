@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import FlexContainer from 'components/FlexContainer';
 import Title from 'components/Title';
 import Error from 'components/Error';
-import { useYoutubeSearch } from 'hooks/useYoutubeSearch';
+import { useYoutubeQuery } from 'hooks/useYoutubeSearch';
 import { useDebouncer } from 'hooks/useDebouncer';
 import Card from './Card';
 import Header from './Header';
 import DetailsView from './DetailsView';
 
 function HomePage() {
-  const { search, items, nextPage, error } = useYoutubeSearch({ for: 'query' });
+  const { search, items, nextPage, error } = useYoutubeQuery();
   const { debounce } = useDebouncer();
   const [selectedVideo, setSelectedVideo] = useState(null);
   const videoResults = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');

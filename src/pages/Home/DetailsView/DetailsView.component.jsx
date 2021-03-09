@@ -5,12 +5,12 @@ import { v4 as uuidv4 } from 'uuid';
 import Overlay from 'components/Overlay';
 import Text from 'components/Text';
 import Title from 'components/Title';
-import { useYoutubeSearch } from 'hooks/useYoutubeSearch';
+import { useYoutubeRelated } from 'hooks/useYoutubeSearch';
 import { VideoPlayer, Container, RelatedVideos } from './styled';
 import RelatedVideo from './RelatedVideoCard';
 
 function DetailsView({ video, onClose, setVideo }) {
-  const { search, items } = useYoutubeSearch({ for: 'related' });
+  const { search, items } = useYoutubeRelated();
   const relatedVideos = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
   const containerRef = useRef(null);
 
