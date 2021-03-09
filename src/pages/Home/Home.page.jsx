@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import FlexContainer from 'components/FlexContainer';
@@ -16,7 +16,7 @@ function HomePage() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const videoResults = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
 
-  async function infiniteScroll() {
+  const infiniteScroll = useCallback(() => {
     const currentScroll = window.innerHeight + window.scrollY;
     const treshold = window.innerHeight * 0.66;
     const nearBottom = currentScroll >= document.body.offsetHeight - treshold;
@@ -25,13 +25,13 @@ function HomePage() {
       // avoids extra calls
       debounce(nextPage);
     }
-  }
+  }, [nextPage, debounce]);
 
   useEffect(() => {
     window.addEventListener('scroll', infiniteScroll, { passive: true });
 
     return () => window.removeEventListener('scroll', infiniteScroll, { passive: true });
-  });
+  }, [infiniteScroll]);
 
   return (
     <FlexContainer column scroll={false}>
