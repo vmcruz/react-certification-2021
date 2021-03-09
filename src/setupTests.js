@@ -3,3 +3,13 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
+
+global.fetch = jest.fn().mockResolvedValue();
+
+jest.mock('config', () => ({
+  youtube: {
+    api: '<YOUTUBE_API>',
+    apiKey: '<YOUTUBE_API_KEY>',
+    maxResults: 24,
+  },
+}));

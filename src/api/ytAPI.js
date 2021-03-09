@@ -11,7 +11,9 @@ async function search({ resourceUrl, searchTerm }) {
   }
 
   throw new Error(
-    `Error ${response.status}: An error ocurred while searching for [${searchTerm.type}: ${searchTerm.value}].`
+    `Error ${response.status || ''}: An error ocurred while searching for [${
+      searchTerm.type
+    }: ${searchTerm.value}].`
   );
 }
 
