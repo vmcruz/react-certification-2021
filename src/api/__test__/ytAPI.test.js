@@ -20,77 +20,56 @@ describe('Youtube API', () => {
     global.fetch.mockRestore();
   });
 
-  describe('Search by query', () => {
-    it('returns null if empty or undefined query', () => {
-      expect(ytAPI.searchQuery({ searchTerm: undefined })).toBe(null);
-      expect(ytAPI.searchQuery({ searchTerm: null })).toBe(null);
-      expect(ytAPI.searchQuery({ searchTerm: '' })).toBe(null);
-    });
+  const ytFunctionsTestHelper = [
+    {
+      searchBy: 'query',
+      fn: ytAPI.searchQuery,
+      urlParam: 'q',
+    },
+    {
+      searchBy: 'relatedToVideoId',
+      fn: ytAPI.searchRelated,
+      urlParam: 'relatedToVideoId',
+    },
+  ];
 
-    it('calls youtube api if query is not empty', () => {
-      ytAPI.searchQuery({ searchTerm: 'testing' });
+  ytFunctionsTestHelper.forEach((helper) => {
+    describe(`Search by ${helper.searchBy}`, () => {
+      it('returns null if empty or undefined searchTerm', () => {
+        expect(helper.fn({ searchTerm: undefined })).toBe(null);
+        expect(helper.fn({ searchTerm: null })).toBe(null);
+        expect(helper.fn({ searchTerm: '' })).toBe(null);
+      });
 
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-      expect(global.fetch).toHaveBeenCalledWith(
-        '<YOUTUBE_API>/search?key=<YOUTUBE_API_KEY>&part=snippet&type=video&videoEmbeddable=true&maxResults=24&q=testing'
-      );
-    });
+      it('calls youtube api if searchTerm is not empty', () => {
+        helper.fn({ searchTerm: 'testing' });
 
-    it('calls youtube api if query is not empty and has a page token', () => {
-      ytAPI.searchQuery({ searchTerm: 'testing', pageToken: 'tokenTest' });
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(global.fetch).toHaveBeenCalledWith(
+          `<YOUTUBE_API>/search?key=<YOUTUBE_API_KEY>&part=snippet&type=video&videoEmbeddable=true&maxResults=24&${helper.urlParam}=testing`
+        );
+      });
 
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-      expect(global.fetch).toHaveBeenCalledWith(
-        '<YOUTUBE_API>/search?key=<YOUTUBE_API_KEY>&part=snippet&type=video&videoEmbeddable=true&maxResults=24&q=testing&pageToken=tokenTest'
-      );
-    });
+      it('calls youtube api if searchTerm is not empty and has a page token', () => {
+        helper.fn({ searchTerm: 'testing', pageToken: 'tokenTest' });
 
-    it('throws error if unsuccessful response', () => {
-      global.fetch = jest.fn().mockResolvedValue(failMock);
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(global.fetch).toHaveBeenCalledWith(
+          `<YOUTUBE_API>/search?key=<YOUTUBE_API_KEY>&part=snippet&type=video&videoEmbeddable=true&maxResults=24&${helper.urlParam}=testing&pageToken=tokenTest`
+        );
+      });
 
-      expect(
-        ytAPI.searchQuery({ searchTerm: 'testing', pageToken: 'tokenTest' })
-      ).rejects.toThrow(
-        new Error('Error 403: An error ocurred while searching for [query: testing].')
-      );
-    });
-  });
+      it('throws error if unsuccessful response', () => {
+        global.fetch = jest.fn().mockResolvedValue(failMock);
 
-  describe('Search by related videos', () => {
-    it('returns null if empty or undefined related video', () => {
-      expect(ytAPI.searchRelated({ searchTerm: undefined })).toBe(null);
-      expect(ytAPI.searchRelated({ searchTerm: null })).toBe(null);
-      expect(ytAPI.searchRelated({ searchTerm: '' })).toBe(null);
-    });
-
-    it('calls youtube api if related video is not empty', () => {
-      ytAPI.searchRelated({ searchTerm: 'testing' });
-
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-      expect(global.fetch).toHaveBeenCalledWith(
-        '<YOUTUBE_API>/search?key=<YOUTUBE_API_KEY>&part=snippet&type=video&videoEmbeddable=true&maxResults=24&relatedToVideoId=testing'
-      );
-    });
-
-    it('calls youtube api if related video is not empty and has a page token', () => {
-      ytAPI.searchRelated({ searchTerm: 'testing', pageToken: 'tokenTest' });
-
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-      expect(global.fetch).toHaveBeenCalledWith(
-        '<YOUTUBE_API>/search?key=<YOUTUBE_API_KEY>&part=snippet&type=video&videoEmbeddable=true&maxResults=24&relatedToVideoId=testing&pageToken=tokenTest'
-      );
-    });
-
-    it('throws error if unsuccessful response', () => {
-      global.fetch = jest.fn().mockResolvedValue(failMock);
-
-      expect(
-        ytAPI.searchRelated({ searchTerm: 'testing', pageToken: 'tokenTest' })
-      ).rejects.toThrow(
-        new Error(
-          'Error 403: An error ocurred while searching for [relatedToVideoId: testing].'
-        )
-      );
+        expect(
+          helper.fn({ searchTerm: 'testing', pageToken: 'tokenTest' })
+        ).rejects.toThrow(
+          new Error(
+            `Error 403: An error ocurred while searching for [${helper.searchBy}: testing].`
+          )
+        );
+      });
     });
   });
 });
