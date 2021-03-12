@@ -4,10 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { InputContainer, StyledInput } from './styled';
 
-function Input({ icon, disabled, ...otherProps }) {
+function Input({ icon, 'data-testid': dataTestid, ...otherProps }) {
   return (
-    <InputContainer disabled={disabled}>
-      {icon && <FontAwesomeIcon icon={icon} pulse={icon === 'spinner'} />}
+    <InputContainer data-testid={dataTestid}>
+      {icon && (
+        <FontAwesomeIcon
+          icon={icon}
+          pulse={icon === 'spinner'}
+          data-testid="fontawesome-icon"
+        />
+      )}
       <StyledInput {...otherProps} />
     </InputContainer>
   );
@@ -15,12 +21,10 @@ function Input({ icon, disabled, ...otherProps }) {
 
 Input.propTypes = {
   icon: PropTypes.string,
-  disabled: PropTypes.bool,
 };
 
 Input.defaultProps = {
   icon: '',
-  disabled: false,
 };
 
 export default Input;

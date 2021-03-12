@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { BackgroundContainer, Container, DismissIcon } from './styled';
 
-function Overlay({ children, scroll, onDismiss }) {
+function Overlay({ children, scroll, onDismiss, 'data-testid': dataTestId }) {
   function handleDismiss() {
     if (!scroll) {
       document.body.style.overflow = 'auto';
@@ -32,9 +32,15 @@ function Overlay({ children, scroll, onDismiss }) {
   });
 
   return (
-    <BackgroundContainer>
+    <BackgroundContainer data-testid={dataTestId}>
       <Container fluid>
-        <DismissIcon icon="times-circle" onClick={handleDismiss} size="2x" />
+        <DismissIcon
+          icon="times-circle"
+          onClick={handleDismiss}
+          size="2x"
+          data-testid="fontawesome-icon"
+          role="button"
+        />
         {children}
       </Container>
     </BackgroundContainer>
@@ -43,12 +49,11 @@ function Overlay({ children, scroll, onDismiss }) {
 
 Overlay.propTypes = {
   scroll: PropTypes.bool,
-  onDismiss: PropTypes.func,
+  onDismiss: PropTypes.func.isRequired,
 };
 
 Overlay.defaultProps = {
   scroll: false,
-  onDismiss: () => {},
 };
 
 export default Overlay;

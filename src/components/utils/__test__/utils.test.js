@@ -39,14 +39,12 @@ describe('utils', () => {
       expect(result).toEqual('padding: var(--spacing-lg) var(--spacing-sm);');
     });
 
-    it('should return the default spacing for invalid options', () => {
+    it('should return the empty spacing for invalid options', () => {
       const result = utils.getSpacingCSS({
         for: 'padding',
         using: { invalid: 'option' },
       });
-      expect(result).toEqual(
-        'padding: var(--spacing-default) var(--spacing-default) var(--spacing-default) var(--spacing-default);'
-      );
+      expect(result).toEqual('');
     });
 
     it('should return the correct spacing for each side options', () => {

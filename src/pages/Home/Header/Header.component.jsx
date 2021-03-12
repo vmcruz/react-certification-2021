@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Input from 'components/Input';
 import Button from 'components/Button';
+import Text from 'components/Text';
 import FlexContainer from 'components/FlexContainer';
 import { placeholder100 } from 'assets';
 import { StyledHeader, Avatar } from './styled';
@@ -28,7 +29,7 @@ function Header({ ytSearch }) {
   return (
     <StyledHeader>
       <FlexContainer>
-        <Button icon="bars" />
+        <Button icon="bars" iconColor="white" />
         <Input
           autoFocus
           icon="search"
@@ -39,7 +40,11 @@ function Header({ ytSearch }) {
         />
       </FlexContainer>
       <FlexContainer>
-        <Button icon="toggle-off">Dark Mode</Button>
+        <Button icon="toggle-off" iconColor="white">
+          <Text color="white" size="lg">
+            Dark Mode
+          </Text>
+        </Button>
         <Button>
           <Avatar src={placeholder100} alt="placeholder-100x100" />
         </Button>
