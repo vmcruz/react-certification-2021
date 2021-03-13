@@ -8,18 +8,18 @@ import { useCallback, useMemo } from 'react';
  * when it expires.
  */
 
-function useCache({ storageManager = localStorage } = {}) {
+function useCache({ storageManager = localStorage, ttl = 'Infinity' } = {}) {
   const setItem = useCallback(
     (key, data, customTtl) => {
       const item = {
         timestamp: Date.now(),
-        ttl: customTtl || 'Infinity',
+        ttl: customTtl || ttl,
         data,
       };
 
       storageManager.setItem(key, JSON.stringify(item));
     },
-    [storageManager]
+    [storageManager, ttl]
   );
 
   const getItem = useCallback(
