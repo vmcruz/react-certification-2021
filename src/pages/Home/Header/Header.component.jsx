@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
+import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -8,13 +8,10 @@ import FlexContainer from 'components/FlexContainer';
 import { placeholder100 } from 'assets';
 import { StyledHeader, Avatar } from './styled';
 
-function Header({ ytSearch }) {
-  const [value, setValue] = useState('');
-
-  useEffect(() => {
-    // load initial search
-    ytSearch('wizeline');
-  }, [ytSearch]);
+function Header() {
+  const { state } = useGlobalState();
+  const dispatch = useGlobalDispatch();
+  const [value, setValue] = useState(state.searchQuery);
 
   function handleChange({ target }) {
     setValue(target.value);
@@ -22,7 +19,10 @@ function Header({ ytSearch }) {
 
   async function handleKeyUp(e) {
     if (e.keyCode === 13) {
-      ytSearch(value);
+      dispatch({
+        type: 'SEARCH_QUERY',
+        payload: { searchQuery: value },
+      });
     }
   }
 
@@ -52,9 +52,5 @@ function Header({ ytSearch }) {
     </StyledHeader>
   );
 }
-
-Header.propTypes = {
-  ytSearch: PropTypes.func.isRequired,
-};
 
 export default Header;

@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import FlexContainer from 'components/FlexContainer';
 import Title from 'components/Title';
 import Error from 'components/Error';
@@ -12,8 +13,9 @@ import DetailsView from './DetailsView';
 
 function HomePage() {
   const { search, items, nextPage, error } = useYoutubeQuery();
-  const { debounce } = useDebouncer();
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const debounce = useDebouncer();
+  const { state } = useGlobalState();
+  const dispatch = useGlobalDispatch();
   const videoResults = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
 
   const infiniteScroll = useCallback(() => {
@@ -33,15 +35,22 @@ function HomePage() {
     return () => window.removeEventListener('scroll', infiniteScroll, { passive: true });
   }, [infiniteScroll]);
 
+  useEffect(() => {
+    if (state.searchQuery) {
+      debounce(() => search(state.searchQuery));
+    }
+  }, [state.searchQuery, debounce, search]);
+
+  function setSelectedVideo(video) {
+    dispatch({
+      type: 'SET_VIDEO',
+      payload: { video },
+    });
+  }
+
   return (
     <FlexContainer column scroll={false}>
-      {selectedVideo && (
-        <DetailsView
-          video={selectedVideo}
-          onClose={() => setSelectedVideo(null)}
-          setVideo={setSelectedVideo}
-        />
-      )}
+      {state.selectedVideo && <DetailsView />}
       <Header ytSearch={search} />
       <FlexContainer margin={{ top: 'xlg' }} fluid>
         <Title color="black" size="xlg">

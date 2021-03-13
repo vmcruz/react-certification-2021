@@ -10,6 +10,7 @@ import {
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
+import GlobalProvider from 'providers/Global';
 import GlobalStyles from 'components/GlobalStyles';
 import App from 'App';
 
@@ -17,8 +18,10 @@ library.add({ faSearch, faBars, faToggleOff, faToggleOn, faSpinner, faTimesCircl
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyles />
-    <App />
+    <GlobalProvider>
+      <GlobalStyles />
+      <App />
+    </GlobalProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
