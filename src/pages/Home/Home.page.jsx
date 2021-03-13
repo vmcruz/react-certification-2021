@@ -10,11 +10,12 @@ import { useDebouncer } from 'hooks/useDebouncer';
 import Card from './Card';
 import Header from './Header';
 import DetailsView from './DetailsView';
+import { HomeContainer } from './styled';
 
 function HomePage() {
   const { search, items, nextPage, error } = useYoutubeQuery();
   const debounce = useDebouncer();
-  const { state } = useGlobalState();
+  const { state, theme } = useGlobalState();
   const dispatch = useGlobalDispatch();
   const videoResults = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
 
@@ -49,11 +50,11 @@ function HomePage() {
   }
 
   return (
-    <FlexContainer column scroll={false}>
+    <HomeContainer column scroll={false}>
       {state.selectedVideo && <DetailsView />}
       <Header ytSearch={search} />
       <FlexContainer margin={{ top: 'xlg' }} fluid>
-        <Title color="black" size="xlg">
+        <Title color={theme.content.colors.text} size="xlg">
           Welcome to the Challenge
         </Title>
       </FlexContainer>
@@ -72,7 +73,7 @@ function HomePage() {
         )}
         {error && <Error message={error.message} />}
       </FlexContainer>
-    </FlexContainer>
+    </HomeContainer>
   );
 }
 

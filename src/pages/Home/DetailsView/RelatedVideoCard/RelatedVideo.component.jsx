@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useGlobalState } from 'providers/Global';
 import FlexContainer from 'components/FlexContainer';
 import Text from 'components/Text';
 import { RelatedVideoCard, Thumbnail } from './styled';
 
 function RelatedVideo({ video, onClick }) {
+  const { theme } = useGlobalState();
+
   if (!video.snippet) return null;
 
   return (
@@ -17,7 +20,7 @@ function RelatedVideo({ video, onClick }) {
         align="flex-start"
         justify="flex-start"
       >
-        <Text color="black" margin={{ bottom: 'sm' }} weight="500">
+        <Text color={theme.card.colors.related} margin={{ bottom: 'sm' }} weight="500">
           {video.snippet.title}
         </Text>
       </FlexContainer>

@@ -2,18 +2,18 @@ import styled, { css } from 'styled-components';
 
 import utils from 'components/utils';
 
-export const StyledText = styled.span((props) => {
-  const { margin, padding } = props;
-
-  return css`
-    font-size: var(--font-size-${props.size});
-    color: ${props.color};
-    font-weight: ${props.weight};
-    text-align: ${props.align};
-    ${utils.getSpacingCSS({ for: 'margin', using: margin })}
-    ${utils.getSpacingCSS({ for: 'padding', using: padding })}
-  `;
-});
+export const StyledText = styled.span(
+  ({ margin, padding, size, color, weight, align }) => {
+    return css`
+      font-size: var(--font-size-${size});
+      color: ${color};
+      font-weight: ${weight};
+      text-align: ${align};
+      ${utils.getSpacingCSS({ for: 'margin', using: margin })}
+      ${utils.getSpacingCSS({ for: 'padding', using: padding })}
+    `;
+  }
+);
 
 StyledText.propTypes = {
   margin: utils.spacing.propTypes,

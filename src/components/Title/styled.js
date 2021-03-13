@@ -2,12 +2,12 @@ import styled, { css } from 'styled-components';
 
 import utils from 'components/utils';
 
-const shared = (props) => css`
-  color: ${props.color};
-  text-align: ${props.align};
+const shared = ({ color, align, margin, padding }) => css`
+  color: ${color};
+  text-align: ${align};
   font-weight: 500;
-  ${utils.getSpacingCSS({ for: 'margin', using: props.margin })}
-  ${utils.getSpacingCSS({ for: 'padding', using: props.padding })}
+  ${utils.getSpacingCSS({ for: 'margin', using: margin })}
+  ${utils.getSpacingCSS({ for: 'padding', using: padding })}
 `;
 
 export const StyledH1 = styled.h1(

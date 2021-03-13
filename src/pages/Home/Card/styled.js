@@ -13,6 +13,12 @@ export const Container = styled(FlexContainer)`
   align-items: flex-start;
   justify-content: flex-start;
   cursor: pointer;
+  transition: opacity 300ms;
+  background-color: ${({ theme }) => theme.card.colors.background};
+
+  &:hover {
+    opacity: 0.7;
+  }
 
   &:hover > div {
     background-size: 120%;
@@ -20,10 +26,10 @@ export const Container = styled(FlexContainer)`
 `;
 
 export const Thumbnail = styled.div(
-  (props) => css`
+  ({ url }) => css`
     width: 100%;
     height: 160px;
-    background-image: url(${props.url});
+    background-image: url(${url});
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;

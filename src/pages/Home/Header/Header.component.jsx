@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import Input from 'components/Input';
@@ -9,9 +9,16 @@ import { placeholder100 } from 'assets';
 import { StyledHeader, Avatar } from './styled';
 
 function Header() {
-  const { state } = useGlobalState();
+  const { state, theme, toggleTheme } = useGlobalState();
   const dispatch = useGlobalDispatch();
-  const [value, setValue] = useState(state.searchQuery);
+  const [value, setValue] = useState('');
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  useEffect(() => {
+    // syncs with state after loading config
+    setValue(state.searchQuery);
+    setIsSwitchOn(state.config.theme !== 'light');
+  }, [state]);
 
   function handleChange({ target }) {
     setValue(target.value);
@@ -26,10 +33,15 @@ function Header() {
     }
   }
 
+  function toggleSwitch() {
+    setIsSwitchOn(!isSwitchOn);
+    toggleTheme();
+  }
+
   return (
     <StyledHeader>
       <FlexContainer>
-        <Button icon="bars" iconColor="white" />
+        <Button icon="bars" iconColor={theme.header.colors.text} />
         <Input
           autoFocus
           icon="search"
@@ -37,11 +49,17 @@ function Header() {
           value={value}
           onChange={handleChange}
           onKeyUp={handleKeyUp}
+          color={theme.header.colors.text}
         />
       </FlexContainer>
       <FlexContainer>
-        <Button icon="toggle-off" iconColor="white">
-          <Text color="white" size="lg">
+        <Button
+          icon={isSwitchOn ? 'toggle-on' : 'toggle-off'}
+          iconColor={theme.header.colors.switch}
+          iconSize="2x"
+          onClick={toggleSwitch}
+        >
+          <Text color={theme.header.colors.text} size="lg">
             Dark Mode
           </Text>
         </Button>

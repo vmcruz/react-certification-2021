@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 
 import { StyledButton, StyledIcon } from './styled';
 
-function Button({ icon, iconColor, round, children, ...otherProps }) {
+function Button({ icon, iconColor, iconSize, children, ...otherProps }) {
   return (
     <StyledButton {...otherProps}>
       {icon && (
-        <StyledIcon icon={icon} color={iconColor} data-testid="fontawesome-icon" />
+        <StyledIcon
+          icon={icon}
+          size={iconSize}
+          color={iconColor}
+          data-testid="button-icon"
+        />
       )}
       {children}
     </StyledButton>
@@ -17,13 +22,13 @@ function Button({ icon, iconColor, round, children, ...otherProps }) {
 Button.propTypes = {
   icon: PropTypes.string,
   iconColor: PropTypes.string,
-  round: PropTypes.bool,
+  iconSize: PropTypes.string,
 };
 
 Button.defaultProps = {
   icon: '',
   iconColor: 'white',
-  round: false,
+  iconSize: '1x',
 };
 
 export default Button;

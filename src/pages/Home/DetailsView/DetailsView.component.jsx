@@ -10,7 +10,7 @@ import { VideoPlayer, Container, RelatedVideos } from './styled';
 import RelatedVideo from './RelatedVideoCard';
 
 function DetailsView() {
-  const { state } = useGlobalState();
+  const { state, theme } = useGlobalState();
   const dispatch = useGlobalDispatch();
   const { search, items } = useYoutubeRelated();
   const relatedVideos = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
@@ -52,10 +52,15 @@ function DetailsView() {
               allowFullScreen
             />
           </VideoPlayer>
-          <Title size="md" color="black" padding={{ vertical: 'md' }} align="left">
+          <Title
+            size="md"
+            color={theme.card.colors.title}
+            padding={{ vertical: 'md' }}
+            align="left"
+          >
             {state.selectedVideo.snippet.title}
           </Title>
-          <Text size="lg" color="#696969" weight="300">
+          <Text size="lg" color={theme.card.colors.description} weight="300">
             {state.selectedVideo.snippet.description}
           </Text>
         </div>

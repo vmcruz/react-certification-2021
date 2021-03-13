@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 /**
  * The current eTag implementation in youtube api for search seems to be
@@ -8,18 +8,18 @@ import { useCallback } from 'react';
  * when it expires.
  */
 
-function useCache({ storageManager = localStorage, ttl = 3600 } = {}) {
+function useCache({ storageManager = localStorage } = {}) {
   const setItem = useCallback(
     (key, data, customTtl) => {
       const item = {
         timestamp: Date.now(),
-        ttl: customTtl || ttl,
+        ttl: customTtl || 'Infinity',
         data,
       };
 
       storageManager.setItem(key, JSON.stringify(item));
     },
-    [storageManager, ttl]
+    [storageManager]
   );
 
   const getItem = useCallback(
@@ -27,7 +27,9 @@ function useCache({ storageManager = localStorage, ttl = 3600 } = {}) {
       const stringifiedItem = storageManager.getItem(key);
 
       if (stringifiedItem) {
-        const item = JSON.parse(stringifiedItem);
+        const item = JSON.parse(stringifiedItem, (_, value) =>
+          value === 'Infinity' ? Infinity : value
+        );
 
         if (Date.now() - item.timestamp <= item.ttl * 1000) {
           return item.data;
@@ -39,7 +41,15 @@ function useCache({ storageManager = localStorage, ttl = 3600 } = {}) {
     [storageManager]
   );
 
-  return { setItem, getItem };
+  const cache = useMemo(
+    () => ({
+      setItem,
+      getItem,
+    }),
+    [setItem, getItem]
+  );
+
+  return cache;
 }
 
 export { useCache };

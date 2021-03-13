@@ -14,9 +14,9 @@ export const StyledButton = styled.button`
 `;
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${(props) => props.color};
-  font-size: var(--font-size-lg);
+  color: ${({ color }) => color};
   margin-right: var(--spacing-md);
+  transition: color 300ms;
 `;
 
 StyledIcon.propTypes = {
