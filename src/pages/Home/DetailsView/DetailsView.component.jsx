@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { decode } from 'html-entities';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import Overlay from 'components/Overlay';
@@ -58,10 +59,10 @@ function DetailsView() {
             padding={{ vertical: 'md' }}
             align="left"
           >
-            {state.selectedVideo.snippet.title}
+            {decode(state.selectedVideo.snippet.title)}
           </Title>
           <Text size="lg" color={theme.card.colors.description} weight="300">
-            {state.selectedVideo.snippet.description}
+            {decode(state.selectedVideo.snippet.description)}
           </Text>
         </div>
         <RelatedVideos column margin={{ left: 'md' }}>

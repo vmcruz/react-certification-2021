@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { decode } from 'html-entities';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import FlexContainer from 'components/FlexContainer';
@@ -64,8 +65,8 @@ function HomePage() {
             ytVideo.snippet && (
               <Card
                 thumbnail={ytVideo.snippet.thumbnails.medium.url}
-                title={ytVideo.snippet.title}
-                description={ytVideo.snippet.description}
+                title={decode(ytVideo.snippet.title)}
+                description={decode(ytVideo.snippet.description)}
                 key={uuidv4()}
                 onClick={() => setSelectedVideo(ytVideo)}
               />

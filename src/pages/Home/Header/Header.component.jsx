@@ -41,7 +41,7 @@ function Header() {
   return (
     <StyledHeader>
       <FlexContainer>
-        <Button icon="bars" iconColor={theme.header.colors.text} />
+        <Button icon="bars" iconColor={theme.header.colors.text} iconSize="lg" />
         <Input
           autoFocus
           icon="search"
