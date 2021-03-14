@@ -3,20 +3,18 @@ import { v4 as uuidv4 } from 'uuid';
 import { decode } from 'html-entities';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
-import FlexContainer from 'components/FlexContainer';
-import Title from 'components/Title';
 import Error from 'components/Error';
 import { useYoutubeQuery } from 'hooks/useYoutubeSearch';
 import { useDebouncer } from 'hooks/useDebouncer';
 import Card from './Card';
 import Header from './Header';
 import DetailsView from './DetailsView';
-import { HomeContainer } from './styled';
+import { Container, CardsContainer } from './styled';
 
 function HomePage() {
   const { search, items, nextPage, error } = useYoutubeQuery();
   const debounce = useDebouncer();
-  const { state, theme } = useGlobalState();
+  const { state } = useGlobalState();
   const dispatch = useGlobalDispatch();
   const videoResults = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
 
@@ -51,15 +49,10 @@ function HomePage() {
   }
 
   return (
-    <HomeContainer column scroll={false}>
+    <Container column scroll={false}>
       {state.selectedVideo && <DetailsView />}
       <Header ytSearch={search} />
-      <FlexContainer margin={{ top: 'xlg' }} fluid>
-        <Title color={theme.content.colors.text} size="xlg">
-          Welcome to the Challenge
-        </Title>
-      </FlexContainer>
-      <FlexContainer margin={{ vertical: 'xlg' }} padding={{ horizontal: 'xlg' }} fluid>
+      <CardsContainer padding={{ horizontal: 'xlg' }} fluid>
         {videoResults.map(
           (ytVideo) =>
             ytVideo.snippet && (
@@ -73,8 +66,8 @@ function HomePage() {
             )
         )}
         {error && <Error message={error.message} />}
-      </FlexContainer>
-    </HomeContainer>
+      </CardsContainer>
+    </Container>
   );
 }
 
