@@ -21,7 +21,8 @@ export const StyledInput = styled.input`
   background: transparent;
   color: inherit;
 
-  &::placeholder {
+  &::placeholder,
+  &:disabled {
     color: rgba(255, 255, 255, 0.5);
   }
 `;

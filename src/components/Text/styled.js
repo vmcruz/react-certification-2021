@@ -8,6 +8,8 @@ export const StyledText = styled.span((props) => {
   return css`
     font-size: var(--font-size-${props.size});
     color: ${props.color};
+    font-weight: ${props.weight};
+    text-align: ${props.align};
     ${utils.getSpacingCSS({ for: 'margin', using: margin })}
     ${utils.getSpacingCSS({ for: 'padding', using: padding })}
   `;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const StyledButton = styled.button`
@@ -13,7 +14,15 @@ export const StyledButton = styled.button`
 `;
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: #fff;
+  color: ${(props) => props.color};
   font-size: var(--font-size-lg);
   margin-right: var(--spacing-md);
 `;
+
+StyledIcon.propTypes = {
+  color: PropTypes.string,
+};
+
+StyledIcon.defaultProps = {
+  color: 'white',
+};

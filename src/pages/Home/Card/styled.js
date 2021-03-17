@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 import FlexContainer from 'components/FlexContainer';
 
@@ -11,18 +12,28 @@ export const Container = styled(FlexContainer)`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  cursor: pointer;
+
+  &:hover > div {
+    background-size: 120%;
+  }
 `;
 
-export const Banner = styled.div(
+export const Thumbnail = styled.div(
   (props) => css`
     width: 100%;
-    height: 140px;
+    height: 160px;
     background-image: url(${props.url});
-    background-size: cover;
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
     border-top-left-radius: var(--border-radius-md);
     border-top-right-radius: var(--border-radius-md);
     margin-bottom: var(--spacing-md);
+    transition: background-size 300ms;
   `
 );
+
+Thumbnail.propTypes = {
+  url: PropTypes.string.isRequired,
+};

@@ -4,10 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { InputContainer, StyledInput } from './styled';
 
-function Input({ icon, ...otherProps }) {
+function Input({ icon, 'data-testid': dataTestid, ...otherProps }) {
   return (
-    <InputContainer>
-      {icon && <FontAwesomeIcon icon={icon} />}
+    <InputContainer data-testid={dataTestid}>
+      {icon && (
+        <FontAwesomeIcon
+          icon={icon}
+          pulse={icon === 'spinner'}
+          data-testid="fontawesome-icon"
+        />
+      )}
       <StyledInput {...otherProps} />
     </InputContainer>
   );

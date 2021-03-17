@@ -1,29 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Text from 'components/Text';
 import { StyledButton, StyledIcon } from './styled';
 
-function Button({ icon, color, round, children, ...otherProps }) {
+function Button({ icon, iconColor, round, children, ...otherProps }) {
   return (
     <StyledButton {...otherProps}>
-      {icon && <StyledIcon icon={icon} />}
-      <Text color={color} size="md">
-        {children}
-      </Text>
+      {icon && (
+        <StyledIcon icon={icon} color={iconColor} data-testid="fontawesome-icon" />
+      )}
+      {children}
     </StyledButton>
   );
 }
 
 Button.propTypes = {
   icon: PropTypes.string,
-  color: PropTypes.string,
+  iconColor: PropTypes.string,
   round: PropTypes.bool,
 };
 
 Button.defaultProps = {
   icon: '',
-  color: 'white',
+  iconColor: 'white',
   round: false,
 };
 

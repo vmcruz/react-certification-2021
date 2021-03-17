@@ -7,6 +7,7 @@ const FlexContainer = styled.div((props) => {
   const { margin, padding, align, justify, fluid, column } = props;
 
   return css`
+    position: relative;
     display: flex;
     align-items: ${align || 'center'};
     justify-content: ${justify || 'center'};

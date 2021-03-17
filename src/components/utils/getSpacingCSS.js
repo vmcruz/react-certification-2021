@@ -11,11 +11,21 @@ const getSpacingCSS = ({ for: spacingKey, using: spacingObj }) => {
     } else if (spacingObj.horizontal && spacingObj.vertical) {
       spacerString = `${spacingKey}: var(--spacing-${spacingObj.vertical}) var(--spacing-${spacingObj.horizontal});`;
     } else {
-      spacerString = `${spacingKey}: var(--spacing-${
-        spacingObj.top || 'default'
-      }) var(--spacing-${spacingObj.right || 'default'}) var(--spacing-${
-        spacingObj.bottom || 'default'
-      }) var(--spacing-${spacingObj.left || 'default'});`;
+      const singleSpacers = ['top', 'right', 'bottom', 'left'];
+      const spacingItems = [];
+
+      singleSpacers.forEach((singleSpacer) => {
+        const spaceValue = spacingObj[singleSpacer];
+        if (spaceValue) {
+          spacingItems.push(`var(--spacing-${spaceValue})`);
+        } else {
+          spacingItems.push('0');
+        }
+      });
+
+      if (spacingItems.some((spacingItem) => spacingItem !== '0')) {
+        spacerString = `${spacingKey}: ${spacingItems.join(' ')};`;
+      }
     }
   }
 
