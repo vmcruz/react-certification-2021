@@ -1,24 +1,19 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { BackgroundContainer, Container, DismissIcon } from './styled';
+import { OverlayLayer } from './styled';
 
-function Overlay({ children, scroll, onDismiss, 'data-testid': dataTestId }) {
+function Overlay({ children, onDismiss, ...otherProps }) {
   function handleDismiss() {
-    if (!scroll) {
-      document.body.style.overflow = 'auto';
-    }
-
+    document.body.style.overflow = 'auto';
     onDismiss();
   }
 
   useEffect(() => {
-    if (!scroll) {
-      document.body.style.overflow = 'hidden';
-    }
-  }, [scroll]);
+    document.body.style.overflow = 'hidden';
+  }, []);
 
-  async function handleKeyUp(e) {
+  function handleKeyUp(e) {
     // ESC
     if (e.keyCode === 27) {
       handleDismiss();
@@ -32,28 +27,14 @@ function Overlay({ children, scroll, onDismiss, 'data-testid': dataTestId }) {
   });
 
   return (
-    <BackgroundContainer data-testid={dataTestId}>
-      <Container fluid>
-        <DismissIcon
-          icon="times-circle"
-          onClick={handleDismiss}
-          size="2x"
-          data-testid="fontawesome-icon"
-          role="button"
-        />
-        {children}
-      </Container>
-    </BackgroundContainer>
+    <OverlayLayer onClick={handleDismiss} {...otherProps}>
+      {children}
+    </OverlayLayer>
   );
 }
 
 Overlay.propTypes = {
-  scroll: PropTypes.bool,
   onDismiss: PropTypes.func.isRequired,
-};
-
-Overlay.defaultProps = {
-  scroll: false,
 };
 
 export default Overlay;

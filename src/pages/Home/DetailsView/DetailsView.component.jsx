@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { decode } from 'html-entities';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
-import Overlay from 'components/Overlay';
+import Modal from 'components/Modal';
 import Text from 'components/Text';
 import Title from 'components/Title';
 import { useYoutubeRelated } from 'hooks/useYoutubeSearch';
@@ -39,7 +39,7 @@ function DetailsView() {
   }, [state.selectedVideo, search]);
 
   return (
-    <Overlay onDismiss={onDismiss}>
+    <Modal onDismiss={onDismiss}>
       <Container ref={containerRef}>
         <div>
           <VideoPlayer>
@@ -75,7 +75,7 @@ function DetailsView() {
           ))}
         </RelatedVideos>
       </Container>
-    </Overlay>
+    </Modal>
   );
 }
 
