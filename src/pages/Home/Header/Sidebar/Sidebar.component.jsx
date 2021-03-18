@@ -15,7 +15,7 @@ function Sidebar({ onClose }) {
     <Overlay onDismiss={onClose}>
       <MenuContainer align="flex-start" onClick={(e) => e.stopPropagation()}>
         <List>
-          <List.Item>
+          <List.Item icon="home" iconColor={theme.sidebar.colors.text} iconSize="lg">
             <Text color={theme.sidebar.colors.text} size="lg">
               Home
             </Text>

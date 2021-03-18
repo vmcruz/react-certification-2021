@@ -12,9 +12,18 @@ import {
   faToggleOn,
   faSpinner,
   faTimesCircle,
+  faHome,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add({ faSearch, faBars, faToggleOff, faToggleOn, faSpinner, faTimesCircle });
+library.add({
+  faSearch,
+  faBars,
+  faToggleOff,
+  faToggleOn,
+  faSpinner,
+  faTimesCircle,
+  faHome,
+});
 
 global.fetch = jest.fn().mockResolvedValue();
 
