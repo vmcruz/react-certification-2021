@@ -6,6 +6,7 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 import FlexContainer from 'components/FlexContainer';
 import { placeholder100 } from 'assets';
+import Sidebar from './Sidebar';
 import { StyledHeader, Avatar } from './styled';
 
 function Header() {
@@ -13,6 +14,7 @@ function Header() {
   const dispatch = useGlobalDispatch();
   const [value, setValue] = useState('');
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   useEffect(() => {
     // syncs with state after loading config
@@ -40,8 +42,14 @@ function Header() {
 
   return (
     <StyledHeader>
+      {isSidebarVisible && <Sidebar onClose={() => setIsSidebarVisible(false)} />}
       <FlexContainer>
-        <Button icon="bars" iconColor={theme.header.colors.text} iconSize="lg" />
+        <Button
+          icon="bars"
+          iconColor={theme.header.colors.text}
+          iconSize="lg"
+          onClick={() => setIsSidebarVisible(true)}
+        />
         <Input
           autoFocus
           icon="search"

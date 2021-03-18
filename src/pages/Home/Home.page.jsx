@@ -51,7 +51,7 @@ function HomePage() {
   return (
     <Container column scroll={false}>
       {state.selectedVideo && <DetailsView />}
-      <Header ytSearch={search} />
+      <Header />
       <CardsContainer padding={{ horizontal: 'xlg' }} fluid>
         {videoResults.map(
           (ytVideo) =>

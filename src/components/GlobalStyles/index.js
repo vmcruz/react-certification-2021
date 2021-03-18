@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
     --font-size-default: 16px;
     --font-size-sm: 12px;
     --font-size-md: 14px;
-    --font-size-lg: 18px;
+    --font-size-lg: 16px;
     --font-size-xlg: 24px;
     --spacing-sm: 8px;
     --spacing-md: 15px;

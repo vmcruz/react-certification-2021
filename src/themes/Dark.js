@@ -12,6 +12,12 @@ export default {
       switch: '#1db1a3',
     },
   },
+  sidebar: {
+    colors: {
+      text: '#fff',
+      background: '#303030',
+    },
+  },
   card: {
     colors: {
       title: '#fff',
