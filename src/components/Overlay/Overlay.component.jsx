@@ -1,33 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { OverlayLayer } from './styled';
 
 function Overlay({ children, onDismiss, ...otherProps }) {
-  function handleDismiss() {
-    document.body.style.overflow = 'auto';
-    onDismiss();
-  }
+  const handleKeyUp = useCallback(
+    (e) => {
+      // ESC
+      if (e.keyCode === 27) {
+        onDismiss();
+      }
+    },
+    [onDismiss]
+  );
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-  }, []);
-
-  function handleKeyUp(e) {
-    // ESC
-    if (e.keyCode === 27) {
-      handleDismiss();
-    }
-  }
-
-  useEffect(() => {
+    // runs on mount
     window.addEventListener('keyup', handleKeyUp);
+    document.body.style.overflow = 'hidden';
 
-    return () => window.removeEventListener('keyup', handleKeyUp);
-  });
+    return () => {
+      // runs on unmount
+      window.removeEventListener('keyup', handleKeyUp);
+      document.body.style.overflow = 'auto';
+    };
+  }, [handleKeyUp]);
 
   return (
-    <OverlayLayer onClick={handleDismiss} {...otherProps}>
+    <OverlayLayer onClick={onDismiss} {...otherProps}>
       {children}
     </OverlayLayer>
   );
