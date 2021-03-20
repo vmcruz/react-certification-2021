@@ -12,7 +12,7 @@ function Modal({ onDismiss, children, ...otherProps }) {
           icon="times-circle"
           onClick={onDismiss}
           size="2x"
-          data-testid="fontawesome-icon"
+          data-testid="modal-close-icon"
           role="button"
         />
         {children}

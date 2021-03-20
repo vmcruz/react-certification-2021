@@ -11,7 +11,7 @@ function Input({ icon, 'data-testid': dataTestid, color, ...otherProps }) {
         <FontAwesomeIcon
           icon={icon}
           pulse={icon === 'spinner'}
-          data-testid="fontawesome-icon"
+          data-testid="input-icon"
         />
       )}
       <StyledInput {...otherProps} />

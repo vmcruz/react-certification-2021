@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import ytAPI from 'api/ytAPI';
 import { useCache } from './useCache';
 
-function useYoutubeSearch({ using: ytSearchFunction, cachePrefix } = {}) {
+function useYoutubeSearch({ using: ytSearchFunction, cachePrefix }) {
   // As the search response won't change so often we set a TTL of 1hr
   const cache = useCache({ ttl: 3600 });
   const items = useRef([]);
@@ -43,11 +43,10 @@ function useYoutubeSearch({ using: ytSearchFunction, cachePrefix } = {}) {
           });
         }
       } catch (e) {
-        console.error(e);
         setError(e);
       }
     },
-    [cachePrefix, ytSearchFunction, searchTerm, cache]
+    [cachePrefix, ytSearchFunction, searchTerm, cache, setError]
   );
 
   const getQueryPage = useCallback((pageToken) => youtubeSearch({ pageToken }), [

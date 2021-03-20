@@ -12,7 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import GlobalProvider from 'providers/Global';
-import GlobalStyles from 'components/GlobalStyles';
+import GlobalStyles from 'themes/GlobalStyles';
 import App from 'App';
 
 library.add({

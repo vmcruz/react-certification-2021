@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
+import { itAcceptsAdditionalProps } from 'components/utils/testing-utils';
 import Overlay from '../Overlay.component';
 
 const props = {
@@ -20,25 +21,14 @@ describe('Overlay component', () => {
     document.body.style.overflow = '';
   });
 
+  itAcceptsAdditionalProps(Overlay, { onDismiss: props.onDismiss });
+
   it('renders with default props', () => {
     const { getByTestId } = render(<Overlay {...props} />);
 
     const overlay = getByTestId('overlay');
 
     expect(overlay).toBeInTheDocument();
-  });
-
-  it('has a close option', () => {
-    const { getByTestId } = render(<Overlay {...props} />);
-
-    const icon = getByTestId('fontawesome-icon');
-
-    expect(icon).toBeInTheDocument();
-    expect(icon).toHaveClass('fa-times-circle');
-
-    fireEvent.click(icon);
-
-    expect(props.onDismiss).toHaveBeenCalledTimes(1);
   });
 
   it('triggers onDismiss when and only when Esc key is pressed', () => {
@@ -61,14 +51,14 @@ describe('Overlay component', () => {
     expect(document.body.style.overflow).toEqual('hidden');
   });
 
-  it('unblocks body scrolling when scroll is set to false and onDismiss is triggered', () => {
+  it('unblocks body scrolling when the component is unmount', () => {
     expect(document.body.style.overflow).toEqual('');
 
-    render(<Overlay {...props} scroll={false} />);
+    const { unmount } = render(<Overlay {...props} scroll={false} />);
 
     expect(document.body.style.overflow).toEqual('hidden');
 
-    fireEvent.keyUp(global.window, { keyCode: keys.ESC });
+    unmount();
 
     expect(document.body.style.overflow).toEqual('auto');
   });
