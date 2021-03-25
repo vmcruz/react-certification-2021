@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
-import Input from 'components/Input';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import FlexContainer from 'components/FlexContainer';
-import { placeholder100 } from 'assets';
 import Sidebar from './Sidebar';
-import { StyledHeader, Avatar } from './styled';
+import { StyledHeader, Avatar, HeaderInput, Section } from './styled';
 
 function Header() {
   const { state, theme, toggleTheme } = useGlobalState();
@@ -39,7 +37,7 @@ function Header() {
     setValue(target.value);
   }
 
-  async function handleKeyUp(e) {
+  function handleKeyUp(e) {
     if (e.keyCode === 13) {
       history.push(`/search/${value}`);
     }
@@ -50,17 +48,25 @@ function Header() {
     toggleTheme();
   }
 
+  function handleAction() {
+    if (state.userData) {
+      dispatch({ type: 'LOGOUT' });
+    } else {
+      history.push('/login');
+    }
+  }
+
   return (
     <StyledHeader>
       {isSidebarVisible && <Sidebar onClose={() => setIsSidebarVisible(false)} />}
-      <FlexContainer>
+      <Section justify="flex-start">
         <Button
           icon="bars"
           iconColor={theme.header.colors.text}
           iconSize="lg"
           onClick={() => setIsSidebarVisible(true)}
         />
-        <Input
+        <HeaderInput
           autoFocus
           icon="search"
           placeholder="Search..."
@@ -69,8 +75,8 @@ function Header() {
           onKeyUp={handleKeyUp}
           color={theme.header.colors.text}
         />
-      </FlexContainer>
-      <FlexContainer>
+      </Section>
+      <Section justify="flex-end">
         <Button
           icon={isSwitchOn ? 'toggle-on' : 'toggle-off'}
           iconColor={theme.header.colors.switch}
@@ -81,10 +87,20 @@ function Header() {
             Dark Mode
           </Text>
         </Button>
-        <Button>
-          <Avatar src={placeholder100} alt="placeholder-100x100" />
+        {state.userData && (
+          <FlexContainer margin={{ left: 'xlg' }}>
+            <Avatar src={state.userData.avatarUrl} alt={state.userData.name} />
+            <Text size="lg" color={theme.header.colors.text} margin={{ left: 'sm' }}>
+              {state.userData.name}
+            </Text>
+          </FlexContainer>
+        )}
+        <Button primary margin={{ left: 'md' }} onClick={handleAction}>
+          <Text size="lg" padding={{ horizontal: 'md' }} color={theme.header.colors.text}>
+            {!state.userData ? 'Login' : 'Logout'}
+          </Text>
         </Button>
-      </FlexContainer>
+      </Section>
     </StyledHeader>
   );
 }

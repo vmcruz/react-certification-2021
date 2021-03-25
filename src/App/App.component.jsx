@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Home from 'pages/Home';
 import Details from 'pages/Details';
+import Login from 'pages/Login';
 import Error from 'pages/Error';
 
 function App() {
@@ -14,6 +15,9 @@ function App() {
         </Route>
         <Route exact path="/watch/:videoId">
           <Details />
+        </Route>
+        <Route exact path="/login">
+          <Login />
         </Route>
         <Route path="*">
           <Error />

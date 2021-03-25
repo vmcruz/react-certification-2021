@@ -4,10 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import utils from 'components/utils';
 
-export const StyledButton = styled.button(({ margin, padding }) => {
-  return css`
-    background: transparent;
+export const StyledButton = styled.button(({ primary, margin, padding }) => {
+  const primaryStyles = `
+    background-color: rgba(0, 0, 0, 0.5);
     border: 0;
+    border: 1px solid gba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius-sm);
+  `;
+
+  return css`
+    background-color: transparent;
+    border: 0;
+    ${primary && primaryStyles}
     cursor: pointer;
     display: flex;
     align-items: center;

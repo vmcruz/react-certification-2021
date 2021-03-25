@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+import Input from 'components/Input/';
+import FlexContainer from 'components/FlexContainer';
+
 export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
@@ -19,4 +22,12 @@ export const Avatar = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 20px;
+`;
+
+export const HeaderInput = styled(Input)`
+  max-width: 250px;
+`;
+
+export const Section = styled(FlexContainer)`
+  flex: 1;
 `;
