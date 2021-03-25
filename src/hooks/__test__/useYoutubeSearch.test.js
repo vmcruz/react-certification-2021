@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { act } from '@testing-library/react';
 import ytAPI from 'api/ytAPI';
-import * as cacheHook from 'hooks/useCache';
+import * as cachedStorageHook from 'hooks/useCachedStorage';
 
 import { useYoutubeQuery, useYoutubeRelated } from '../useYoutubeSearch';
 import ytResults from './__mocks__/ytSearchResult';
@@ -24,25 +24,25 @@ const hooksTestHelper = [
 hooksTestHelper.forEach((hookHelper) => {
   describe(`${hookHelper.description} Hook`, () => {
     const setupMocks = () => {
-      const useCacheSpy = jest.spyOn(cacheHook, 'useCache');
+      const useCachedStorageSpy = jest.spyOn(cachedStorageHook, 'useCachedStorage');
       const apiQuerySpy = jest.spyOn(ytAPI, hookHelper.apiFn);
 
       const restoreAll = () => {
-        useCacheSpy.mockRestore();
+        useCachedStorageSpy.mockRestore();
         apiQuerySpy.mockRestore();
       };
 
-      return { useCacheSpy, apiQuerySpy, restoreAll };
+      return { useCachedStorageSpy, apiQuerySpy, restoreAll };
     };
 
     it('searches using searchQuery from ytAPI if item has not been cached before or if it is expired', async () => {
-      const { useCacheSpy, apiQuerySpy, restoreAll } = setupMocks();
+      const { useCachedStorageSpy, apiQuerySpy, restoreAll } = setupMocks();
       const cacheMock = {
         setItem: jest.fn(),
         getItem: jest.fn().mockReturnValue(null),
       };
 
-      useCacheSpy.mockImplementation(() => cacheMock);
+      useCachedStorageSpy.mockImplementation(() => cacheMock);
       apiQuerySpy.mockImplementation(() => Promise.resolve(ytResults));
 
       const { result } = renderHook(() => hookHelper.useYoutubeHook());
@@ -81,7 +81,7 @@ hooksTestHelper.forEach((hookHelper) => {
     });
 
     it('gets the results from the cache', async () => {
-      const { useCacheSpy, apiQuerySpy, restoreAll } = setupMocks();
+      const { useCachedStorageSpy, apiQuerySpy, restoreAll } = setupMocks();
 
       const cacheMock = {
         setItem: jest.fn(),
@@ -94,7 +94,7 @@ hooksTestHelper.forEach((hookHelper) => {
         }),
       };
 
-      useCacheSpy.mockImplementation(() => cacheMock);
+      useCachedStorageSpy.mockImplementation(() => cacheMock);
 
       const { result } = renderHook(() => hookHelper.useYoutubeHook());
 
@@ -151,7 +151,7 @@ hooksTestHelper.forEach((hookHelper) => {
 
     requestPageTestHelper.forEach((pageHelper) => {
       it(`requests ${pageHelper.description} page if exists`, async () => {
-        const { useCacheSpy, apiQuerySpy, restoreAll } = setupMocks();
+        const { useCachedStorageSpy, apiQuerySpy, restoreAll } = setupMocks();
 
         const cacheMock = {
           setItem: jest.fn(),
@@ -164,7 +164,7 @@ hooksTestHelper.forEach((hookHelper) => {
           }),
         };
 
-        useCacheSpy.mockImplementation(() => cacheMock);
+        useCachedStorageSpy.mockImplementation(() => cacheMock);
         apiQuerySpy.mockImplementation(() => Promise.resolve(ytResults));
 
         const { result } = renderHook(() => hookHelper.useYoutubeHook());

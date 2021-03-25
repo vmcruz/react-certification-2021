@@ -1,4 +1,4 @@
-import { useCache } from 'hooks/useCache';
+import { useCachedStorage } from 'hooks/useCachedStorage';
 import React, {
   createContext,
   useContext,
@@ -34,7 +34,7 @@ function useGlobalState() {
 
 function GlobalProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const cache = useCache();
+  const cache = useCachedStorage();
 
   useEffect(() => {
     const appState = cache.getItem('app@state');

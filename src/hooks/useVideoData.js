@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
 import ytAPI from 'api/ytAPI';
-import { useCache } from './useCache';
+import { useCachedStorage } from './useCachedStorage';
 
 function useVideoData({ videoId }) {
   // As the video data won't change so often we set a TTL of 1 day
-  const cache = useCache({ ttl: 3600 * 24 });
+  const cache = useCachedStorage({ ttl: 3600 * 24 });
   const [videoData, setVideoData] = useState({});
   const [error, setError] = useState(null);
 
