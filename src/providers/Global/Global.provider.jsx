@@ -70,7 +70,7 @@ function GlobalProvider({ children }) {
 
     if (user) {
       // restore favs when user logs in
-      setFavorites(cache.getItem(favKey));
+      setFavorites(cache.getItem(favKey) || []);
     }
   }, [state, cache, sessionCache, favKey]);
 
