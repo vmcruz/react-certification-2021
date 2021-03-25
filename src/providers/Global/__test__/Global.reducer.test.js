@@ -21,6 +21,7 @@ describe('Global reducer', () => {
         theme: 'light',
       },
       theme: null,
+      userData: null,
     });
 
     act(() => {
