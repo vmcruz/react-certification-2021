@@ -38,7 +38,7 @@ describe('Global reducer', () => {
     const [, dispatch] = result.current;
 
     act(() => {
-      dispatch({ type: 'SET_VIDEO', payload: { video: 'video_payload' } });
+      dispatch({ type: 'SET_VIDEO', payload: { videoId: 'video_payload' } });
     });
 
     expect(result.current[STATE].selectedVideo).toEqual('video_payload');
