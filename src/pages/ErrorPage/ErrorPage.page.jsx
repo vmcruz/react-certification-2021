@@ -7,7 +7,7 @@ import Layout from 'components/Layout';
 import Title from 'components/Title';
 import { Image } from './styled';
 
-function NotFound({ message, code }) {
+function ErrorPage({ message, code }) {
   const { theme } = useGlobalState();
 
   return (
@@ -21,14 +21,14 @@ function NotFound({ message, code }) {
   );
 }
 
-NotFound.propTypes = {
+ErrorPage.propTypes = {
   message: PropTypes.string,
   code: PropTypes.number,
 };
 
-NotFound.defaultProps = {
+ErrorPage.defaultProps = {
   message: 'Oops! you reached an empty place',
   code: 404,
 };
 
-export default NotFound;
+export default ErrorPage;
