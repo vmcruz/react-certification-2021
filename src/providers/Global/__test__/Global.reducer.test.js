@@ -63,7 +63,7 @@ describe('Global reducer', () => {
     expect(result.current[STATE].config.theme).toEqual('dark');
 
     act(() => {
-      dispatch({ type: 'LOAD_CONFIG', payload: { config: { overrides: 'config' } } });
+      dispatch({ type: 'LOAD_CONFIG', payload: { overrides: 'config' } });
     });
 
     expect(result.current[STATE].config).toEqual({
