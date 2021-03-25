@@ -46,4 +46,13 @@ describe('Button component', () => {
     expect(childrenText).toBeInTheDocument();
     expect(childrenText.textContent).toEqual('Test');
   });
+
+  it('renders the button as primary', () => {
+    const { getByRole } = render(<Button primary />);
+
+    const button = getByRole('button');
+
+    expect(button).toHaveStyle('background-color: rgba(0, 0, 0, 0.5)');
+    expect(button).toHaveStyle('border-radius: var(--border-radius-sm)');
+  });
 });

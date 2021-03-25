@@ -7,9 +7,8 @@ import utils from 'components/utils';
 export const StyledButton = styled.button(({ primary, margin, padding }) => {
   const primaryStyles = `
     background-color: rgba(0, 0, 0, 0.5);
-    border: 0;
-    border: 1px solid gba(0, 0, 0, 0.2);
     border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(0, 0, 0, 0.2);
   `;
 
   return css`
