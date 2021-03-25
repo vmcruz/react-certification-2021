@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGlobalState } from 'providers/Global';
 import Layout from 'components/Layout';
 import Title from 'components/Title';
+import Text from 'components/Text';
 import FlexContainer from 'components/FlexContainer';
 import CardsLoader from 'components/CardsLoader/CardsLoader.component';
 
@@ -16,7 +17,13 @@ function Favorites() {
         <FontAwesomeIcon icon="heart" size="1x" /> Favorites
       </Title>
       <FlexContainer padding={{ horizontal: 'xlg' }} fluid>
-        {favorites && <CardsLoader videos={favorites} />}
+        {favorites.length ? (
+          <CardsLoader videos={favorites} />
+        ) : (
+          <Text size="xlg" color={theme.card.colors.title}>
+            It looks like you haven&apos;t added any favorites yet.
+          </Text>
+        )}
       </FlexContainer>
     </Layout>
   );
