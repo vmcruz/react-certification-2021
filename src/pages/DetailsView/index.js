@@ -1,1 +1,1 @@
-export { default } from './DetailsView.component';
+export { default } from './DetailsView.page';
