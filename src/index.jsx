@@ -9,7 +9,9 @@ import {
   faSpinner,
   faTimesCircle,
   faHome,
+  faHeart as fasHeart,
 } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 
 import GlobalProvider from 'providers/Global';
 import GlobalStyles from 'themes/GlobalStyles';
@@ -23,6 +25,8 @@ library.add({
   faSpinner,
   faTimesCircle,
   faHome,
+  fasHeart,
+  farHeart,
 });
 
 ReactDOM.render(

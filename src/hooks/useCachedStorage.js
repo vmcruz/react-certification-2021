@@ -41,15 +41,20 @@ function useCachedStorage({ storageManager = localStorage, ttl = 'Infinity' } = 
     [storageManager]
   );
 
-  const cache = useMemo(
+  const removeItem = useCallback((key) => storageManager.removeItem(key), [
+    storageManager,
+  ]);
+
+  const cachedStorage = useMemo(
     () => ({
       setItem,
       getItem,
+      removeItem,
     }),
-    [setItem, getItem]
+    [setItem, getItem, removeItem]
   );
 
-  return cache;
+  return cachedStorage;
 }
 
 export { useCachedStorage };

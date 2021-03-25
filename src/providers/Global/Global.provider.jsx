@@ -5,6 +5,7 @@ import React, {
   useReducer,
   useCallback,
   useEffect,
+  useState,
 } from 'react';
 import { ThemeProvider } from 'styled-components';
 
@@ -35,29 +36,38 @@ function useGlobalState() {
 function GlobalProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const cache = useCachedStorage();
+  const favKey = `favs@user${state.user?.id}`;
+  const [favorites, setFavorites] = useState(cache.getItem(favKey) || []);
+  // manages user session for 1 hr, to avoid relogin every time the page refreshes
+  const sessionCache = useCachedStorage({ ttl: 3600 });
 
   useEffect(() => {
-    const appState = cache.getItem('app@state');
+    const appConfig = cache.getItem('app@config');
+    const appUser = sessionCache.getItem('app@user');
 
-    if (appState) {
-      const { config } = appState;
-
+    if (appConfig) {
       dispatch({
         type: 'LOAD_CONFIG',
-        payload: { config },
+        payload: appConfig,
+      });
+    }
+
+    if (appUser) {
+      dispatch({
+        type: 'RESTORE_SESSION',
+        payload: appUser,
       });
     }
 
     // loads just once
-  }, [cache]);
+  }, [cache, sessionCache]);
 
   useEffect(() => {
     // save the state on every change
-    const { config } = state;
-    cache.setItem('app@state', {
-      config,
-    });
-  }, [state, cache]);
+    const { config, user } = state;
+    cache.setItem('app@config', config);
+    sessionCache.setItem('app@user', user);
+  }, [state, cache, sessionCache]);
 
   const toggleTheme = useCallback(() => {
     if (state.config.theme === 'dark') {
@@ -75,12 +85,39 @@ function GlobalProvider({ children }) {
     }
   }, [state.config.theme]);
 
+  function updateFavs(newFavs) {
+    setFavorites(newFavs);
+    cache.setItem(favKey, newFavs);
+  }
+
+  function addFavorite(videoData) {
+    const newFavs = [...favorites, videoData];
+    updateFavs(newFavs);
+  }
+
+  function removeFavorite(videoId) {
+    const newFavs = [...favorites.filter((favorite) => favorite.id !== videoId)];
+    updateFavs(newFavs);
+  }
+
+  function isVideoFaved(videoId) {
+    return favorites.some((favorite) => favorite.id === videoId);
+  }
+
   const theme = themes[state.config.theme];
+
+  const favUtils = {
+    add: addFavorite,
+    remove: removeFavorite,
+    isFaved: isVideoFaved,
+  };
 
   const globalState = {
     state,
     toggleTheme,
     theme,
+    // only available when the user is logged in
+    ...(state.user ? { favUtils } : null),
   };
 
   return (

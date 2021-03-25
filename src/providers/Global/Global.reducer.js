@@ -5,7 +5,7 @@ const initialState = {
     theme: 'light',
   },
   theme: null,
-  userData: null,
+  user: null,
 };
 
 function setSelectedVideo(state, payload) {
@@ -35,15 +35,19 @@ function setTheme(state, payload) {
 }
 
 function loadConfig(state, payload) {
-  return { ...state, config: payload.config };
+  return { ...state, config: payload };
+}
+
+function restoreSession(state, payload) {
+  return { ...state, user: payload };
 }
 
 function login(state, payload) {
-  return { ...state, userData: payload };
+  return { ...state, user: payload };
 }
 
 function logout(state) {
-  return { ...state, userData: null };
+  return { ...state, user: null };
 }
 
 const actions = {
@@ -54,6 +58,7 @@ const actions = {
   LOAD_CONFIG: loadConfig,
   LOGIN: login,
   LOGOUT: logout,
+  RESTORE_SESSION: restoreSession,
 };
 
 function reducer(state, action) {

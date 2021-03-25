@@ -49,7 +49,7 @@ function Header() {
   }
 
   function handleAction() {
-    if (state.userData) {
+    if (state.user) {
       dispatch({ type: 'LOGOUT' });
     } else {
       history.push('/login');
@@ -87,17 +87,17 @@ function Header() {
             Dark Mode
           </Text>
         </Button>
-        {state.userData && (
+        {state.user && (
           <FlexContainer margin={{ left: 'xlg' }}>
-            <Avatar src={state.userData.avatarUrl} alt={state.userData.name} />
+            <Avatar src={state.user.avatarUrl} alt={state.user.name} />
             <Text size="lg" color={theme.header.colors.text} margin={{ left: 'sm' }}>
-              {state.userData.name}
+              {state.user.name}
             </Text>
           </FlexContainer>
         )}
         <Button primary margin={{ left: 'md' }} onClick={handleAction}>
           <Text size="lg" padding={{ horizontal: 'md' }} color={theme.header.colors.text}>
-            {!state.userData ? 'Login' : 'Logout'}
+            {!state.user ? 'Login' : 'Logout'}
           </Text>
         </Button>
       </Section>

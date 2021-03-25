@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import loginApi from 'api/login';
@@ -19,24 +19,24 @@ function Login() {
   const usernameInputRef = useRef(null);
   const history = useHistory();
 
-  if (state.userData) {
-    history.push('/');
-  }
+  useEffect(() => {
+    if (state.user) {
+      history.push('/');
+    }
+  }, [state.user, history]);
 
   async function handleLogin() {
     if (username && password) {
       setError('');
       try {
         setIsLoading(true);
-        const userData = await loginApi(username, password);
+        const user = await loginApi(username, password);
         dispatch({
           type: 'LOGIN',
-          payload: userData,
+          payload: user,
         });
-        history.push('/');
       } catch (e) {
         setError(e.message);
-      } finally {
         setIsLoading(false);
         setUsername('');
         setPassword('');
@@ -45,7 +45,6 @@ function Login() {
       setError('Missing username or password');
     }
 
-    console.log(usernameInputRef);
     if (usernameInputRef && usernameInputRef.current) {
       usernameInputRef.current.focus();
     }

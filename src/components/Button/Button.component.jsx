@@ -3,12 +3,20 @@ import PropTypes from 'prop-types';
 
 import { StyledButton, StyledIcon } from './styled';
 
-function Button({ primary, icon, iconColor, iconSize, children, ...otherProps }) {
+function Button({
+  primary,
+  icon,
+  iconColor,
+  iconSize,
+  regularIcon,
+  children,
+  ...otherProps
+}) {
   return (
     <StyledButton primary={primary} {...otherProps}>
       {icon && (
         <StyledIcon
-          icon={icon}
+          icon={[regularIcon ? 'far' : 'fas', icon]}
           size={iconSize}
           color={iconColor}
           data-testid="button-icon"
@@ -25,6 +33,7 @@ Button.propTypes = {
   iconColor: PropTypes.string,
   iconSize: PropTypes.string,
   primary: PropTypes.bool,
+  regularIcon: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -32,6 +41,7 @@ Button.defaultProps = {
   iconColor: 'white',
   iconSize: '1x',
   primary: false,
+  regularIcon: false,
 };
 
 export default Button;

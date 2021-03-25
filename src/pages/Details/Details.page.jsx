@@ -8,19 +8,21 @@ import Layout from 'components/Layout';
 import Error from 'pages/Error';
 import Text from 'components/Text';
 import Title from 'components/Title';
+import Button from 'components/Button';
 import { useYoutubeRelated } from 'hooks/useYoutubeSearch';
 import { useVideoData } from 'hooks/useVideoData';
-import { VideoPlayer, Container, RelatedVideos } from './styled';
+import { VideoPlayer, Container, RelatedVideos, VideoItems } from './styled';
 import RelatedVideo from './RelatedVideoCard';
 
 function DetailsView() {
-  const { state, theme } = useGlobalState();
+  const { state, theme, favUtils } = useGlobalState();
   const dispatch = useGlobalDispatch();
   const { search, items } = useYoutubeRelated();
   const relatedVideos = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
   const history = useHistory();
   const params = useParams();
   const { videoData, error } = useVideoData({ videoId: params.videoId });
+  const isVideoFaved = state.user && favUtils.isFaved(params.videoId);
 
   function handleSetVideo(relatedVideoId) {
     dispatch({
@@ -29,6 +31,14 @@ function DetailsView() {
     });
     window.scroll({ top: 0, behavior: 'smooth' });
     history.push(`/watch/${relatedVideoId}`);
+  }
+
+  function toggleFavorite() {
+    if (!isVideoFaved) {
+      favUtils.add(videoData);
+    } else {
+      favUtils.remove(params.videoId);
+    }
   }
 
   useEffect(() => {
@@ -67,14 +77,28 @@ function DetailsView() {
                 allowFullScreen
               />
             </VideoPlayer>
-            <Title
-              size="md"
-              color={theme.card.colors.title}
-              padding={{ vertical: 'md' }}
-              align="left"
-            >
-              {decode(videoData.snippet.title)}
-            </Title>
+            <VideoItems padding={{ vertical: 'md' }}>
+              <div>
+                <Title size="md" color={theme.card.colors.title} align="left">
+                  {decode(videoData.snippet.title)}
+                </Title>
+              </div>
+              {state.user && (
+                <div>
+                  <Button
+                    primary
+                    margin={{ left: 'md' }}
+                    icon="heart"
+                    regularIcon={!isVideoFaved}
+                    onClick={toggleFavorite}
+                  >
+                    <Text size="md">
+                      {!isVideoFaved ? 'Add to' : 'Remove from'} favorites
+                    </Text>
+                  </Button>
+                </div>
+              )}
+            </VideoItems>
             <Text size="lg" color={theme.card.colors.description} weight="300">
               {decode(videoData.snippet.description)}
             </Text>

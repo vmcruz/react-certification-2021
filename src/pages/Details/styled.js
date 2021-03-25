@@ -32,3 +32,12 @@ export const RelatedVideos = styled(FlexContainer)`
     overflow: initial;
   }
 `;
+
+export const VideoItems = styled(FlexContainer)`
+  align-items: flex-start;
+  justify-content: space-between;
+
+  & > div:first-child {
+    flex: 1;
+  }
+`;
