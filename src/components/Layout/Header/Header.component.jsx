@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import Button from 'components/Button';
@@ -16,6 +16,7 @@ function Header() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const history = useHistory();
   const params = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     // syncs with state after loading config
@@ -39,7 +40,7 @@ function Header() {
 
   function handleKeyUp(e) {
     if (e.keyCode === 13) {
-      history.push(`/search/${value}`);
+      history.push(`/search/${value}`, { from: location.pathname });
     }
   }
 
@@ -52,7 +53,7 @@ function Header() {
     if (state.user) {
       dispatch({ type: 'LOGOUT' });
     } else {
-      history.push('/login');
+      history.push('/login', { from: location.pathname });
     }
   }
 

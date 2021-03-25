@@ -9,6 +9,8 @@ import { Container, Thumbnail } from './styled';
 
 function Card({ thumbnail, title, description, onClick }) {
   const { theme } = useGlobalState();
+  const shortDescription =
+    description.length > 170 ? `${description.substr(0, 170)} ...` : description;
 
   return (
     <Container margin={{ all: 'sm' }} column onClick={onClick}>
@@ -18,7 +20,7 @@ function Card({ thumbnail, title, description, onClick }) {
           {title}
         </Title>
         <Text size="md" color={theme.card.colors.description} margin={{ top: 'sm' }}>
-          {description}
+          {shortDescription}
         </Text>
       </FlexContainer>
     </Container>

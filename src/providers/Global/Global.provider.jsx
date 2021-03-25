@@ -37,7 +37,7 @@ function GlobalProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const cache = useCachedStorage();
   const favKey = `favs@user${state.user?.id}`;
-  const [favorites, setFavorites] = useState(cache.getItem(favKey) || []);
+  const [favorites, setFavorites] = useState([]);
   // manages user session for 1 hr, to avoid relogin every time the page refreshes
   const sessionCache = useCachedStorage({ ttl: 3600 });
 
@@ -67,7 +67,12 @@ function GlobalProvider({ children }) {
     const { config, user } = state;
     cache.setItem('app@config', config);
     sessionCache.setItem('app@user', user);
-  }, [state, cache, sessionCache]);
+
+    if (user) {
+      // restore favs when user logs in
+      setFavorites(cache.getItem(favKey));
+    }
+  }, [state, cache, sessionCache, favKey]);
 
   const toggleTheme = useCallback(() => {
     if (state.config.theme === 'dark') {
@@ -117,7 +122,7 @@ function GlobalProvider({ children }) {
     toggleTheme,
     theme,
     // only available when the user is logged in
-    ...(state.user ? { favUtils } : null),
+    ...(state.user ? { favUtils, favorites } : null),
   };
 
   return (

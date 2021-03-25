@@ -10,7 +10,7 @@ import List from 'components/List';
 import { MenuContainer } from './styled';
 
 function Sidebar({ onClose }) {
-  const { theme } = useGlobalState();
+  const { state, theme } = useGlobalState();
   const dispatch = useGlobalDispatch();
   const history = useHistory();
 
@@ -20,6 +20,11 @@ function Sidebar({ onClose }) {
       payload: { searchQuery: 'wizeline' },
     });
     history.push('/');
+    onClose();
+  }
+
+  function goFavs() {
+    history.push('/favorites');
     onClose();
   }
 
@@ -37,6 +42,18 @@ function Sidebar({ onClose }) {
               Home
             </Text>
           </List.Item>
+          {state.user && (
+            <List.Item
+              icon="heart"
+              iconColor={theme.sidebar.colors.text}
+              iconSize="lg"
+              onClick={goFavs}
+            >
+              <Text color={theme.sidebar.colors.text} size="lg">
+                Favorites
+              </Text>
+            </List.Item>
+          )}
         </List>
       </MenuContainer>
     </Overlay>

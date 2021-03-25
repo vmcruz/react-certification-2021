@@ -1,7 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import { decode } from 'html-entities';
 
 import { useGlobalState } from 'providers/Global';
 import Layout from 'components/Layout';
@@ -9,14 +6,13 @@ import Error from 'components/Error';
 import FlexContainer from 'components/FlexContainer';
 import { useYoutubeQuery } from 'hooks/useYoutubeSearch';
 import { useDebouncer } from 'hooks/useDebouncer';
-import Card from './Card';
+import CardsLoader from 'components/CardsLoader/CardsLoader.component';
 
 function HomePage() {
   const { search, items, nextPage, error } = useYoutubeQuery();
   const debounce = useDebouncer();
   const { state } = useGlobalState();
   const videoResults = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
-  const history = useHistory();
 
   const infiniteScroll = useCallback(() => {
     const currentScroll = window.innerHeight + window.scrollY;
@@ -44,18 +40,7 @@ function HomePage() {
   return (
     <Layout>
       <FlexContainer padding={{ horizontal: 'xlg' }} fluid>
-        {videoResults.map(
-          (ytVideo) =>
-            ytVideo.snippet && (
-              <Card
-                thumbnail={ytVideo.snippet.thumbnails.medium.url}
-                title={decode(ytVideo.snippet.title)}
-                description={decode(ytVideo.snippet.description)}
-                key={uuidv4()}
-                onClick={() => history.push(`/watch/${ytVideo.id.videoId}`)}
-              />
-            )
-        )}
+        <CardsLoader videos={videoResults} />
         {error && <Error message={error.message} />}
       </FlexContainer>
     </Layout>

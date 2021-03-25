@@ -21,7 +21,7 @@ function Login() {
 
   useEffect(() => {
     if (state.user) {
-      history.push('/');
+      history.push(history.location?.state?.from || '/');
     }
   }, [state.user, history]);
 
