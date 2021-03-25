@@ -1,22 +1,22 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import HomePage from 'pages/Home';
-import DetailsView from 'pages/DetailsView';
-import ErrorPage from 'pages/ErrorPage';
+import Home from 'pages/Home';
+import Details from 'pages/Details';
+import Error from 'pages/Error';
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={['/', '/search/:query']}>
-          <HomePage />
+          <Home />
         </Route>
         <Route exact path="/watch/:videoId">
-          <DetailsView />
+          <Details />
         </Route>
         <Route path="*">
-          <ErrorPage />
+          <Error />
         </Route>
       </Switch>
     </BrowserRouter>

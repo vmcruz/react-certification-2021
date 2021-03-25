@@ -5,7 +5,7 @@ import { decode } from 'html-entities';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import Layout from 'components/Layout';
-import ErrorPage from 'pages/ErrorPage';
+import Error from 'pages/Error';
 import Text from 'components/Text';
 import Title from 'components/Title';
 import { useYoutubeRelated } from 'hooks/useYoutubeSearch';
@@ -46,9 +46,9 @@ function DetailsView() {
 
   if (error) {
     if (!error.inApi) {
-      return <ErrorPage message={error.message} code={404} />;
+      return <Error message={error.message} code={404} />;
     }
-    return <ErrorPage message="Something went wrong" code={500} />;
+    return <Error message="Something went wrong" code={500} />;
   }
 
   return (

@@ -7,7 +7,7 @@ import Layout from 'components/Layout';
 import Title from 'components/Title';
 import { Image } from './styled';
 
-function ErrorPage({ message, code }) {
+function Error({ message, code }) {
   const { theme } = useGlobalState();
 
   return (
@@ -21,14 +21,14 @@ function ErrorPage({ message, code }) {
   );
 }
 
-ErrorPage.propTypes = {
+Error.propTypes = {
   message: PropTypes.string,
   code: PropTypes.number,
 };
 
-ErrorPage.defaultProps = {
+Error.defaultProps = {
   message: 'Oops! you reached an empty place',
   code: 404,
 };
 
-export default ErrorPage;
+export default Error;
