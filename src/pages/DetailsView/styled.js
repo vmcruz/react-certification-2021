@@ -12,7 +12,6 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.card.colors.background};
   padding: var(--spacing-md);
   width: 100%;
-  height: 80vh;
 
   @media screen and (max-width: 1200px) {
     display: flex;

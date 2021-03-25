@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import Input from 'components/Input';
@@ -15,6 +16,8 @@ function Header() {
   const [value, setValue] = useState('');
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const history = useHistory();
+  const params = useParams();
 
   useEffect(() => {
     // syncs with state after loading config
@@ -22,16 +25,23 @@ function Header() {
     setIsSwitchOn(state.config.theme !== 'light');
   }, [state]);
 
+  useEffect(() => {
+    // syncs the value of the input when the param.query changes
+    if (params.query) {
+      dispatch({
+        type: 'SEARCH_QUERY',
+        payload: { searchQuery: params.query },
+      });
+    }
+  }, [dispatch, params.query]);
+
   function handleChange({ target }) {
     setValue(target.value);
   }
 
   async function handleKeyUp(e) {
     if (e.keyCode === 13) {
-      dispatch({
-        type: 'SEARCH_QUERY',
-        payload: { searchQuery: value },
-      });
+      history.push(`/search/${value}`);
     }
   }
 

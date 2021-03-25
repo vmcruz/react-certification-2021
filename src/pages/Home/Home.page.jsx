@@ -1,22 +1,22 @@
 import React, { useCallback, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { decode } from 'html-entities';
 
-import { useGlobalState, useGlobalDispatch } from 'providers/Global';
+import { useGlobalState } from 'providers/Global';
+import Layout from 'components/Layout';
 import Error from 'components/Error';
+import FlexContainer from 'components/FlexContainer';
 import { useYoutubeQuery } from 'hooks/useYoutubeSearch';
 import { useDebouncer } from 'hooks/useDebouncer';
 import Card from './Card';
-import Header from './Header';
-import DetailsView from './DetailsView';
-import { Container, CardsContainer } from './styled';
 
 function HomePage() {
   const { search, items, nextPage, error } = useYoutubeQuery();
   const debounce = useDebouncer();
   const { state } = useGlobalState();
-  const dispatch = useGlobalDispatch();
   const videoResults = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
+  const history = useHistory();
 
   const infiniteScroll = useCallback(() => {
     const currentScroll = window.innerHeight + window.scrollY;
@@ -41,18 +41,9 @@ function HomePage() {
     }
   }, [state.searchQuery, debounce, search]);
 
-  function setSelectedVideo(video) {
-    dispatch({
-      type: 'SET_VIDEO',
-      payload: { video },
-    });
-  }
-
   return (
-    <Container column scroll={false}>
-      {state.selectedVideo && <DetailsView />}
-      <Header />
-      <CardsContainer padding={{ horizontal: 'xlg' }} fluid>
+    <Layout>
+      <FlexContainer padding={{ horizontal: 'xlg' }} fluid>
         {videoResults.map(
           (ytVideo) =>
             ytVideo.snippet && (
@@ -61,13 +52,13 @@ function HomePage() {
                 title={decode(ytVideo.snippet.title)}
                 description={decode(ytVideo.snippet.description)}
                 key={uuidv4()}
-                onClick={() => setSelectedVideo(ytVideo)}
+                onClick={() => history.push(`/watch/${ytVideo.id.videoId}`)}
               />
             )
         )}
         {error && <Error message={error.message} />}
-      </CardsContainer>
-    </Container>
+      </FlexContainer>
+    </Layout>
   );
 }
 

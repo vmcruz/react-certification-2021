@@ -8,7 +8,7 @@ const initialState = {
 };
 
 function setSelectedVideo(state, payload) {
-  return { ...state, selectedVideo: payload.video };
+  return { ...state, selectedVideo: payload.videoId };
 }
 
 function unsetSelectedVideo(state) {

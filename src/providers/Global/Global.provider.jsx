@@ -40,11 +40,7 @@ function GlobalProvider({ children }) {
     const appState = cache.getItem('app@state');
 
     if (appState) {
-      const { searchQuery, config } = appState;
-      dispatch({
-        type: 'SEARCH_QUERY',
-        payload: { searchQuery },
-      });
+      const { config } = appState;
 
       dispatch({
         type: 'LOAD_CONFIG',
@@ -57,9 +53,8 @@ function GlobalProvider({ children }) {
 
   useEffect(() => {
     // save the state on every change
-    const { searchQuery, config } = state;
+    const { config } = state;
     cache.setItem('app@state', {
-      searchQuery,
       config,
     });
   }, [state, cache]);
