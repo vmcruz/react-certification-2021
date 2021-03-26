@@ -13,7 +13,9 @@ import {
   faSpinner,
   faTimesCircle,
   faHome,
+  faHeart as fasHeart,
 } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 
 library.add({
   faSearch,
@@ -23,6 +25,8 @@ library.add({
   faSpinner,
   faTimesCircle,
   faHome,
+  fasHeart,
+  farHeart,
 });
 
 global.fetch = jest.fn().mockResolvedValue();
@@ -73,3 +77,10 @@ export const localStorageMock = (function localStorageMock() {
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: jest.fn(() => ({})),
+  useHistory: jest.fn(() => ({})),
+  useParams: jest.fn(() => ({})),
+}));

@@ -29,7 +29,7 @@ function Sidebar({ onClose }) {
   }
 
   return (
-    <Overlay onDismiss={onClose}>
+    <Overlay onDismiss={onClose} data-testid="sidebar">
       <MenuContainer align="flex-start" onClick={(e) => e.stopPropagation()}>
         <List>
           <List.Item
@@ -37,6 +37,7 @@ function Sidebar({ onClose }) {
             iconColor={theme.sidebar.colors.text}
             iconSize="lg"
             onClick={goHome}
+            data-testid="go-home-item"
           >
             <Text color={theme.sidebar.colors.text} size="lg">
               Home
@@ -48,6 +49,7 @@ function Sidebar({ onClose }) {
               iconColor={theme.sidebar.colors.text}
               iconSize="lg"
               onClick={goFavs}
+              data-testid="go-favs-item"
             >
               <Text color={theme.sidebar.colors.text} size="lg">
                 Favorites

@@ -7,7 +7,7 @@ import { InputContainer, StyledInput } from './styled';
 const Input = React.forwardRef(
   ({ icon, 'data-testid': dataTestid, color, className, ...otherProps }, ref) => {
     return (
-      <InputContainer data-testid={dataTestid} color={color} className={className}>
+      <InputContainer color={color} className={className}>
         {icon && (
           <FontAwesomeIcon
             icon={icon}
@@ -15,7 +15,12 @@ const Input = React.forwardRef(
             data-testid="input-icon"
           />
         )}
-        <StyledInput {...otherProps} hasIcon={Boolean(icon)} ref={ref} />
+        <StyledInput
+          data-testid={dataTestid}
+          {...otherProps}
+          hasIcon={Boolean(icon)}
+          ref={ref}
+        />
       </InputContainer>
     );
   }

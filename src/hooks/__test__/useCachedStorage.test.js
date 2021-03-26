@@ -15,7 +15,6 @@ describe('useCachedStorage Hook', () => {
     customStorageManager.setItem.mockClear();
     customStorageManager.getItem.mockClear();
     dateSpy = jest.spyOn(Date, 'now').mockImplementation(() => mockNow);
-    localStorageMock.mockClear();
   });
 
   afterEach(() => {
@@ -118,5 +117,17 @@ describe('useCachedStorage Hook', () => {
     expect(data).toEqual(null);
 
     jest.useRealTimers();
+  });
+
+  it('removes an item from the cached storage', () => {
+    const { result } = renderHook(() => useCachedStorage());
+
+    result.current.setItem('testing', { data: 'test' });
+
+    expect(result.current.getItem('testing')).toEqual({ data: 'test' });
+
+    result.current.removeItem('testing');
+
+    expect(result.current.getItem('testing')).toEqual(null);
   });
 });

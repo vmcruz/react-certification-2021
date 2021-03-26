@@ -25,7 +25,7 @@ FlexContainer.propTypes = {
   fluid: PropTypes.bool,
   align: PropTypes.string,
   justify: PropTypes.string,
-  columnd: PropTypes.bool,
+  column: PropTypes.bool,
 };
 
 FlexContainer.defaultProps = {

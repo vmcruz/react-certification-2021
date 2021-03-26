@@ -66,6 +66,7 @@ function Header() {
           iconColor={theme.header.colors.text}
           iconSize="lg"
           onClick={() => setIsSidebarVisible(true)}
+          data-testid="open-sidebar-button"
         />
         <HeaderInput
           autoFocus
@@ -75,6 +76,7 @@ function Header() {
           onChange={handleChange}
           onKeyUp={handleKeyUp}
           color={theme.header.colors.text}
+          data-testid="search-input"
         />
       </Section>
       <Section justify="flex-end">
@@ -83,20 +85,26 @@ function Header() {
           iconColor={theme.header.colors.switch}
           iconSize="2x"
           onClick={toggleSwitch}
+          data-testid="toggle-theme-switch"
         >
           <Text color={theme.header.colors.text} size="lg">
             Dark Mode
           </Text>
         </Button>
         {state.user && (
-          <FlexContainer margin={{ left: 'xlg' }}>
+          <FlexContainer margin={{ left: 'xlg' }} data-testid="user-data-container">
             <Avatar src={state.user.avatarUrl} alt={state.user.name} />
             <Text size="lg" color={theme.header.colors.text} margin={{ left: 'sm' }}>
               {state.user.name}
             </Text>
           </FlexContainer>
         )}
-        <Button primary margin={{ left: 'md' }} onClick={handleAction}>
+        <Button
+          primary
+          margin={{ left: 'md' }}
+          onClick={handleAction}
+          data-testid="log-in-out-button"
+        >
           <Text size="lg" padding={{ horizontal: 'md' }} color={theme.header.colors.text}>
             {!state.user ? 'Login' : 'Logout'}
           </Text>

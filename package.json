@@ -76,7 +76,8 @@
       "!src/config/**",
       "!src/themes/**",
       "!src/assets/**",
-      "!src/index.jsx"
+      "!src/index.jsx",
+      "!src/api/login.js"
     ]
   }
 }

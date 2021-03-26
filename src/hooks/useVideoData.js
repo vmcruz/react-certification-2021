@@ -40,8 +40,10 @@ function useVideoData({ videoId }) {
   }, [cache, videoId]);
 
   useEffect(() => {
-    getVideoData();
-  }, [getVideoData]);
+    if (videoId) {
+      getVideoData();
+    }
+  }, [getVideoData, videoId]);
 
   return { videoData, error };
 }
