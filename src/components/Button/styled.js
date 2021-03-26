@@ -1,22 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const StyledButton = styled.button`
-  background: transparent;
-  border: 0;
-  padding: var(--spacing-sm);
-  margin-right: var(--spacing-md);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+import utils from 'components/utils';
+
+export const StyledButton = styled.button(({ margin, padding }) => {
+  return css`
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ${utils.getSpacingCSS({ for: 'margin', using: margin })}
+    ${utils.getSpacingCSS({ for: 'padding', using: padding })}
+  `;
+});
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${(props) => props.color};
-  font-size: var(--font-size-lg);
+  color: ${({ color }) => color};
   margin-right: var(--spacing-md);
+  transition: color 300ms;
 `;
 
 StyledIcon.propTypes = {
@@ -25,4 +29,14 @@ StyledIcon.propTypes = {
 
 StyledIcon.defaultProps = {
   color: 'white',
+};
+
+StyledButton.propTypes = {
+  margin: utils.spacing.propTypes,
+  padding: utils.spacing.propTypes,
+};
+
+StyledButton.defaultProps = {
+  margin: null,
+  padding: { all: 'sm' },
 };

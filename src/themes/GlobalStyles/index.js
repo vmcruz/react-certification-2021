@@ -6,14 +6,12 @@ const GlobalStyle = createGlobalStyle`
     --font-size-default: 16px;
     --font-size-sm: 12px;
     --font-size-md: 14px;
-    --font-size-lg: 18px;
+    --font-size-lg: 16px;
     --font-size-xlg: 24px;
     --spacing-sm: 8px;
     --spacing-md: 15px;
     --spacing-lg: 20px;
     --spacing-xlg: 30px;
-
-    --primary-color: #1c5476;
     --border-radius-sm: 4px;
     --border-radius-md: 10px;
     --border-radius-lg: 15px;
@@ -26,6 +24,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     outline: none !important;
     font-family: var(--font-family-default);
+  }
+
+  body {
+    background-color: ${({ theme }) => theme.content.colors.background}
   }
 
   h1, h2, h3, h4 {

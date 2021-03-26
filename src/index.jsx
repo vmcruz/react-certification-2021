@@ -8,17 +8,29 @@ import {
   faToggleOn,
   faSpinner,
   faTimesCircle,
+  faHome,
 } from '@fortawesome/free-solid-svg-icons';
 
-import GlobalStyles from 'components/GlobalStyles';
+import GlobalProvider from 'providers/Global';
+import GlobalStyles from 'themes/GlobalStyles';
 import App from 'App';
 
-library.add({ faSearch, faBars, faToggleOff, faToggleOn, faSpinner, faTimesCircle });
+library.add({
+  faSearch,
+  faBars,
+  faToggleOff,
+  faToggleOn,
+  faSpinner,
+  faTimesCircle,
+  faHome,
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyles />
-    <App />
+    <GlobalProvider>
+      <GlobalStyles />
+      <App />
+    </GlobalProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

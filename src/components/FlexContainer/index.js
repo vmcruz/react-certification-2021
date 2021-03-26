@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 
 import utils from 'components/utils';
 
-const FlexContainer = styled.div((props) => {
-  const { margin, padding, align, justify, fluid, column } = props;
-
+const FlexContainer = styled.div(({ margin, padding, align, justify, fluid, column }) => {
   return css`
     position: relative;
     display: flex;

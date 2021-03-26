@@ -19,7 +19,7 @@ describe('Input component', () => {
   it('renders with unanimated icon', () => {
     const { getByTestId } = render(<Input data-testid="container" icon="search" />);
 
-    const icon = getByTestId('fontawesome-icon');
+    const icon = getByTestId('input-icon');
 
     expect(icon).toHaveClass('fa-search');
     expect(icon).not.toHaveClass('fa-pulse');
@@ -28,7 +28,7 @@ describe('Input component', () => {
   it('renders animated icon when icon is spinner', () => {
     const { getByTestId } = render(<Input data-testid="container" icon="spinner" />);
 
-    const icon = getByTestId('fontawesome-icon');
+    const icon = getByTestId('input-icon');
 
     expect(icon).toHaveClass('fa-pulse');
   });

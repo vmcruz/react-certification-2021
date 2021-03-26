@@ -9,7 +9,7 @@ export const VideoPlayer = styled.div`
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 400px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.card.colors.background};
   padding: var(--spacing-md);
   width: 100%;
   height: 80vh;

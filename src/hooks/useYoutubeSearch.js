@@ -2,9 +2,9 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import ytAPI from 'api/ytAPI';
 import { useCache } from './useCache';
 
-function useYoutubeSearch({ using: ytSearchFunction, cachePrefix } = {}) {
+function useYoutubeSearch({ using: ytSearchFunction, cachePrefix }) {
   // As the search response won't change so often we set a TTL of 1hr
-  const { getItem, setItem } = useCache({ ttl: 3600 });
+  const cache = useCache({ ttl: 3600 });
   const items = useRef([]);
   const [searchTerm, setSearchTerm] = useState(null);
   const [pagination, setPagination] = useState({});
@@ -17,7 +17,7 @@ function useYoutubeSearch({ using: ytSearchFunction, cachePrefix } = {}) {
           pageToken ? `#${pageToken}` : ''
         }`;
         // Look for cached results first
-        const cachedResults = getItem(cacheKey);
+        const cachedResults = cache.getItem(cacheKey);
 
         if (cachedResults) {
           items.current.push(...cachedResults.items);
@@ -37,17 +37,16 @@ function useYoutubeSearch({ using: ytSearchFunction, cachePrefix } = {}) {
 
           setPagination(paginationTokens);
 
-          setItem(cacheKey, {
+          cache.setItem(cacheKey, {
             items: dataItems,
             pagination: paginationTokens,
           });
         }
       } catch (e) {
-        console.error(e);
         setError(e);
       }
     },
-    [cachePrefix, ytSearchFunction, searchTerm, setItem, getItem]
+    [cachePrefix, ytSearchFunction, searchTerm, cache, setError]
   );
 
   const getQueryPage = useCallback((pageToken) => youtubeSearch({ pageToken }), [

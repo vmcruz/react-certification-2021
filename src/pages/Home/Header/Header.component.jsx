@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
+import { useGlobalState, useGlobalDispatch } from 'providers/Global';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import FlexContainer from 'components/FlexContainer';
 import { placeholder100 } from 'assets';
+import Sidebar from './Sidebar';
 import { StyledHeader, Avatar } from './styled';
 
-function Header({ ytSearch }) {
+function Header() {
+  const { state, theme, toggleTheme } = useGlobalState();
+  const dispatch = useGlobalDispatch();
   const [value, setValue] = useState('');
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   useEffect(() => {
-    // load initial search
-    ytSearch('wizeline');
-  }, [ytSearch]);
+    // syncs with state after loading config
+    setValue(state.searchQuery);
+    setIsSwitchOn(state.config.theme !== 'light');
+  }, [state]);
 
   function handleChange({ target }) {
     setValue(target.value);
@@ -22,14 +28,28 @@ function Header({ ytSearch }) {
 
   async function handleKeyUp(e) {
     if (e.keyCode === 13) {
-      ytSearch(value);
+      dispatch({
+        type: 'SEARCH_QUERY',
+        payload: { searchQuery: value },
+      });
     }
+  }
+
+  function toggleSwitch() {
+    setIsSwitchOn(!isSwitchOn);
+    toggleTheme();
   }
 
   return (
     <StyledHeader>
+      {isSidebarVisible && <Sidebar onClose={() => setIsSidebarVisible(false)} />}
       <FlexContainer>
-        <Button icon="bars" iconColor="white" />
+        <Button
+          icon="bars"
+          iconColor={theme.header.colors.text}
+          iconSize="lg"
+          onClick={() => setIsSidebarVisible(true)}
+        />
         <Input
           autoFocus
           icon="search"
@@ -37,11 +57,17 @@ function Header({ ytSearch }) {
           value={value}
           onChange={handleChange}
           onKeyUp={handleKeyUp}
+          color={theme.header.colors.text}
         />
       </FlexContainer>
       <FlexContainer>
-        <Button icon="toggle-off" iconColor="white">
-          <Text color="white" size="lg">
+        <Button
+          icon={isSwitchOn ? 'toggle-on' : 'toggle-off'}
+          iconColor={theme.header.colors.switch}
+          iconSize="2x"
+          onClick={toggleSwitch}
+        >
+          <Text color={theme.header.colors.text} size="lg">
             Dark Mode
           </Text>
         </Button>
@@ -52,9 +78,5 @@ function Header({ ytSearch }) {
     </StyledHeader>
   );
 }
-
-Header.propTypes = {
-  ytSearch: PropTypes.func.isRequired,
-};
 
 export default Header;

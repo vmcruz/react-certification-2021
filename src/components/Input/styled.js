@@ -1,11 +1,13 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
 import FlexContainer from 'components/FlexContainer';
 
 export const InputContainer = styled(FlexContainer)`
   border-radius: var(--border-radius-sm);
   background-color: rgba(255, 255, 255, 0.15);
   height: 35px;
-  color: #fff;
+  color: ${({ color }) => color};
   padding: 0 var(--spacing-lg);
 
   &:hover {
@@ -26,3 +28,7 @@ export const StyledInput = styled.input`
     color: rgba(255, 255, 255, 0.5);
   }
 `;
+
+InputContainer.propTypes = {
+  color: PropTypes.string.isRequired,
+};

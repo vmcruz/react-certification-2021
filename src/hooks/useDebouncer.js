@@ -1,12 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 function useDebouncer({ timeout = 700 } = {}) {
   const debouncer = useRef(null);
   const [debounceFn, setDebounceFn] = useState(null);
 
-  function debounce(fn) {
-    setDebounceFn(() => fn);
-  }
+  const debounce = useCallback(
+    (fn) => {
+      setDebounceFn(() => fn);
+    },
+    [setDebounceFn]
+  );
 
   useEffect(() => {
     debouncer.current = setTimeout(() => debounceFn && debounceFn(), timeout);
@@ -14,7 +17,7 @@ function useDebouncer({ timeout = 700 } = {}) {
     return () => clearTimeout(debouncer.current);
   }, [timeout, debounceFn]);
 
-  return { debounce };
+  return debounce;
 }
 
 export { useDebouncer };

@@ -18,7 +18,7 @@ describe('Button component', () => {
   it('renders an icon', () => {
     const { getByTestId } = render(<Button icon="spinner" />);
 
-    const icon = getByTestId('fontawesome-icon');
+    const icon = getByTestId('button-icon');
 
     expect(icon.nodeName).toEqual('svg');
     expect(icon).toHaveClass('fa-spinner');
@@ -27,7 +27,7 @@ describe('Button component', () => {
 
   it('renders an icon with color', () => {
     const { getByTestId } = render(<Button icon="spinner" iconColor="#f0f" />);
-    const icon = getByTestId('fontawesome-icon');
+    const icon = getByTestId('button-icon');
 
     expect(icon).toHaveStyle('color: #f0f');
   });
@@ -39,7 +39,7 @@ describe('Button component', () => {
       </Button>
     );
 
-    const icon = getByTestId('fontawesome-icon');
+    const icon = getByTestId('button-icon');
     const childrenText = getByTestId('children-test');
 
     expect(icon).toBeInTheDocument();
