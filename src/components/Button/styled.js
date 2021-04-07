@@ -4,16 +4,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import utils from 'components/utils';
 
-export const StyledButton = styled.button(({ margin, padding }) => {
+export const StyledButton = styled.button(({ primary, margin, padding }) => {
+  const primaryStyles = `
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.5);
+    }
+  `;
+
   return css`
-    background: transparent;
+    background-color: transparent;
     border: 0;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    ${utils.getSpacingCSS({ for: 'margin', using: margin })}
-    ${utils.getSpacingCSS({ for: 'padding', using: padding })}
+    ${utils.getSpacingCSS({ for: 'margin', using: margin })};
+    ${utils.getSpacingCSS({ for: 'padding', using: padding })};
+    ${primary && primaryStyles}
   `;
 });
 

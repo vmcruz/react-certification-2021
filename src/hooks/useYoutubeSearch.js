@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import ytAPI from 'api/ytAPI';
-import { useCache } from './useCache';
+import { useCachedStorage } from './useCachedStorage';
 
 function useYoutubeSearch({ using: ytSearchFunction, cachePrefix }) {
   // As the search response won't change so often we set a TTL of 1hr
-  const cache = useCache({ ttl: 3600 });
+  const cache = useCachedStorage({ ttl: 3600 });
   const items = useRef([]);
   const [searchTerm, setSearchTerm] = useState(null);
   const [pagination, setPagination] = useState({});

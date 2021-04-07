@@ -26,4 +26,13 @@ export default {
       background: '#fff',
     },
   },
+  login: {
+    colors: {
+      title: 'rgba(0, 0, 0, 0.87)',
+      input: 'rgba(0, 0, 0, 0.5)',
+      submit: 'rgba(255, 255, 255, 0.7)',
+      background: '#fff',
+      error: '#cf542b',
+    },
+  },
 };

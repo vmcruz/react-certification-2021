@@ -8,7 +8,7 @@ import { useCallback, useMemo } from 'react';
  * when it expires.
  */
 
-function useCache({ storageManager = localStorage, ttl = 'Infinity' } = {}) {
+function useCachedStorage({ storageManager = localStorage, ttl = 'Infinity' } = {}) {
   const setItem = useCallback(
     (key, data, customTtl) => {
       const item = {
@@ -41,15 +41,20 @@ function useCache({ storageManager = localStorage, ttl = 'Infinity' } = {}) {
     [storageManager]
   );
 
-  const cache = useMemo(
+  const removeItem = useCallback((key) => storageManager.removeItem(key), [
+    storageManager,
+  ]);
+
+  const cachedStorage = useMemo(
     () => ({
       setItem,
       getItem,
+      removeItem,
     }),
-    [setItem, getItem]
+    [setItem, getItem, removeItem]
   );
 
-  return cache;
+  return cachedStorage;
 }
 
-export { useCache };
+export { useCachedStorage };

@@ -2,7 +2,7 @@ import { youtube } from 'config';
 
 const BASE_SEARCH = `/search?key=${youtube.apiKey}&part=snippet&type=video&videoEmbeddable=true&maxResults=${youtube.maxResults}`;
 
-async function search({ resourceUrl, searchTerm }) {
+async function fetchFromYoutube({ resourceUrl, searchTerm }) {
   const response = await fetch(`${youtube.api}${resourceUrl}`);
 
   if (response.ok && response.status === 200) {
@@ -26,7 +26,7 @@ function searchQuery({ searchTerm, pageToken }) {
     resourceUrl += `&pageToken=${pageToken}`;
   }
 
-  return search({
+  return fetchFromYoutube({
     resourceUrl,
     searchTerm: {
       type: 'query',
@@ -44,7 +44,7 @@ function searchRelated({ searchTerm, pageToken }) {
     resourceUrl += `&pageToken=${pageToken}`;
   }
 
-  return search({
+  return fetchFromYoutube({
     resourceUrl,
     searchTerm: {
       type: 'relatedToVideoId',
@@ -52,4 +52,19 @@ function searchRelated({ searchTerm, pageToken }) {
     },
   });
 }
-export default { searchQuery, searchRelated };
+
+function getVideoData({ videoId }) {
+  if (!videoId) return null;
+
+  const resourceUrl = `/videos?key=${youtube.apiKey}&part=snippet&id=${videoId}`;
+
+  return fetchFromYoutube({
+    resourceUrl,
+    searchTerm: {
+      type: 'videoId',
+      value: videoId,
+    },
+  });
+}
+
+export default { searchQuery, searchRelated, getVideoData };

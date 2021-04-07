@@ -12,7 +12,6 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.card.colors.background};
   padding: var(--spacing-md);
   width: 100%;
-  height: 80vh;
 
   @media screen and (max-width: 1200px) {
     display: flex;
@@ -31,5 +30,14 @@ export const RelatedVideos = styled(FlexContainer)`
     margin-left: 0;
     margin-top: var(--spacing-md);
     overflow: initial;
+  }
+`;
+
+export const VideoItems = styled(FlexContainer)`
+  align-items: flex-start;
+  justify-content: space-between;
+
+  & > div:first-child {
+    flex: 1;
   }
 `;

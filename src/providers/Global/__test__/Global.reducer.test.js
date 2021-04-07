@@ -21,6 +21,7 @@ describe('Global reducer', () => {
         theme: 'light',
       },
       theme: null,
+      user: null,
     });
 
     act(() => {
@@ -38,7 +39,7 @@ describe('Global reducer', () => {
     const [, dispatch] = result.current;
 
     act(() => {
-      dispatch({ type: 'SET_VIDEO', payload: { video: 'video_payload' } });
+      dispatch({ type: 'SET_VIDEO', payload: { videoId: 'video_payload' } });
     });
 
     expect(result.current[STATE].selectedVideo).toEqual('video_payload');
@@ -62,7 +63,7 @@ describe('Global reducer', () => {
     expect(result.current[STATE].config.theme).toEqual('dark');
 
     act(() => {
-      dispatch({ type: 'LOAD_CONFIG', payload: { config: { overrides: 'config' } } });
+      dispatch({ type: 'LOAD_CONFIG', payload: { overrides: 'config' } });
     });
 
     expect(result.current[STATE].config).toEqual({

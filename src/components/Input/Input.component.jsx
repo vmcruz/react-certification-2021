@@ -4,20 +4,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { InputContainer, StyledInput } from './styled';
 
-function Input({ icon, 'data-testid': dataTestid, color, ...otherProps }) {
-  return (
-    <InputContainer data-testid={dataTestid} color={color}>
-      {icon && (
-        <FontAwesomeIcon
-          icon={icon}
-          pulse={icon === 'spinner'}
-          data-testid="input-icon"
+const Input = React.forwardRef(
+  ({ icon, 'data-testid': dataTestid, color, className, ...otherProps }, ref) => {
+    return (
+      <InputContainer color={color} className={className}>
+        {icon && (
+          <FontAwesomeIcon
+            icon={icon}
+            pulse={icon === 'spinner'}
+            data-testid="input-icon"
+          />
+        )}
+        <StyledInput
+          data-testid={dataTestid}
+          {...otherProps}
+          hasIcon={Boolean(icon)}
+          ref={ref}
         />
-      )}
-      <StyledInput {...otherProps} />
-    </InputContainer>
-  );
-}
+      </InputContainer>
+    );
+  }
+);
 
 Input.propTypes = {
   icon: PropTypes.string,

@@ -1,21 +1,17 @@
 import React, { useCallback, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { decode } from 'html-entities';
 
-import { useGlobalState, useGlobalDispatch } from 'providers/Global';
+import { useGlobalState } from 'providers/Global';
+import Layout from 'components/Layout';
 import Error from 'components/Error';
+import FlexContainer from 'components/FlexContainer';
 import { useYoutubeQuery } from 'hooks/useYoutubeSearch';
 import { useDebouncer } from 'hooks/useDebouncer';
-import Card from './Card';
-import Header from './Header';
-import DetailsView from './DetailsView';
-import { Container, CardsContainer } from './styled';
+import CardsLoader from 'components/CardsLoader/CardsLoader.component';
 
 function HomePage() {
   const { search, items, nextPage, error } = useYoutubeQuery();
   const debounce = useDebouncer();
   const { state } = useGlobalState();
-  const dispatch = useGlobalDispatch();
   const videoResults = items.filter((ytItem) => ytItem.id.kind === 'youtube#video');
 
   const infiniteScroll = useCallback(() => {
@@ -41,33 +37,13 @@ function HomePage() {
     }
   }, [state.searchQuery, debounce, search]);
 
-  function setSelectedVideo(video) {
-    dispatch({
-      type: 'SET_VIDEO',
-      payload: { video },
-    });
-  }
-
   return (
-    <Container column scroll={false}>
-      {state.selectedVideo && <DetailsView />}
-      <Header />
-      <CardsContainer padding={{ horizontal: 'xlg' }} fluid>
-        {videoResults.map(
-          (ytVideo) =>
-            ytVideo.snippet && (
-              <Card
-                thumbnail={ytVideo.snippet.thumbnails.medium.url}
-                title={decode(ytVideo.snippet.title)}
-                description={decode(ytVideo.snippet.description)}
-                key={uuidv4()}
-                onClick={() => setSelectedVideo(ytVideo)}
-              />
-            )
-        )}
+    <Layout>
+      <FlexContainer padding={{ horizontal: 'xlg' }} fluid>
+        <CardsLoader videos={videoResults} />
         {error && <Error message={error.message} />}
-      </CardsContainer>
-    </Container>
+      </FlexContainer>
+    </Layout>
   );
 }
 

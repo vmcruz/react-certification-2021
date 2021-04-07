@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 import { useGlobalState, useGlobalDispatch } from 'providers/Global';
-import Input from 'components/Input';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import FlexContainer from 'components/FlexContainer';
-import { placeholder100 } from 'assets';
 import Sidebar from './Sidebar';
-import { StyledHeader, Avatar } from './styled';
+import { StyledHeader, Avatar, HeaderInput, Section } from './styled';
 
 function Header() {
   const { state, theme, toggleTheme } = useGlobalState();
@@ -15,6 +14,9 @@ function Header() {
   const [value, setValue] = useState('');
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const history = useHistory();
+  const params = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     // syncs with state after loading config
@@ -22,16 +24,23 @@ function Header() {
     setIsSwitchOn(state.config.theme !== 'light');
   }, [state]);
 
+  useEffect(() => {
+    // syncs the value of the input when the param.query changes
+    if (params.query) {
+      dispatch({
+        type: 'SEARCH_QUERY',
+        payload: { searchQuery: params.query },
+      });
+    }
+  }, [dispatch, params.query]);
+
   function handleChange({ target }) {
     setValue(target.value);
   }
 
-  async function handleKeyUp(e) {
+  function handleKeyUp(e) {
     if (e.keyCode === 13) {
-      dispatch({
-        type: 'SEARCH_QUERY',
-        payload: { searchQuery: value },
-      });
+      history.push(`/search/${value}`, { from: location.pathname });
     }
   }
 
@@ -40,17 +49,26 @@ function Header() {
     toggleTheme();
   }
 
+  function handleAction() {
+    if (state.user) {
+      dispatch({ type: 'LOGOUT' });
+    } else {
+      history.push('/login', { from: location.pathname });
+    }
+  }
+
   return (
     <StyledHeader>
       {isSidebarVisible && <Sidebar onClose={() => setIsSidebarVisible(false)} />}
-      <FlexContainer>
+      <Section justify="flex-start">
         <Button
           icon="bars"
           iconColor={theme.header.colors.text}
           iconSize="lg"
           onClick={() => setIsSidebarVisible(true)}
+          data-testid="open-sidebar-button"
         />
-        <Input
+        <HeaderInput
           autoFocus
           icon="search"
           placeholder="Search..."
@@ -58,23 +76,40 @@ function Header() {
           onChange={handleChange}
           onKeyUp={handleKeyUp}
           color={theme.header.colors.text}
+          data-testid="search-input"
         />
-      </FlexContainer>
-      <FlexContainer>
+      </Section>
+      <Section justify="flex-end">
         <Button
           icon={isSwitchOn ? 'toggle-on' : 'toggle-off'}
           iconColor={theme.header.colors.switch}
           iconSize="2x"
           onClick={toggleSwitch}
+          data-testid="toggle-theme-switch"
         >
           <Text color={theme.header.colors.text} size="lg">
             Dark Mode
           </Text>
         </Button>
-        <Button>
-          <Avatar src={placeholder100} alt="placeholder-100x100" />
+        {state.user && (
+          <FlexContainer margin={{ left: 'xlg' }} data-testid="user-data-container">
+            <Avatar src={state.user.avatarUrl} alt={state.user.name} />
+            <Text size="lg" color={theme.header.colors.text} margin={{ left: 'sm' }}>
+              {state.user.name}
+            </Text>
+          </FlexContainer>
+        )}
+        <Button
+          primary
+          margin={{ left: 'md' }}
+          onClick={handleAction}
+          data-testid="log-in-out-button"
+        >
+          <Text size="lg" padding={{ horizontal: 'md' }} color={theme.header.colors.text}>
+            {!state.user ? 'Login' : 'Logout'}
+          </Text>
         </Button>
-      </FlexContainer>
+      </Section>
     </StyledHeader>
   );
 }
