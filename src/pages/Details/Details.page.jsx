@@ -56,7 +56,7 @@ function DetailsView() {
 
   if (error) {
     if (!error.inApi) {
-      return <Error message={error.message} code={404} />;
+      return <Error message={error.e.message} code={404} />;
     }
     return <Error message="Something went wrong" code={500} />;
   }
